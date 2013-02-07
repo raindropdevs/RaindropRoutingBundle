@@ -79,7 +79,7 @@ class DynamicRouterTest extends BaseTestCase {
         
         
         $routeEntity = $this->getMockRoute($url, $controller, $locale);
-        $routeEntity->setRouteContent('Raindrop\RoutingBundle\Tests\Routing\ContentMock:1');
+        $routeEntity->setRouteContent('Raindrop\RoutingBundle\Tests\Routing\ContentMock::1');
         $routeEntity->setEntityManager($entityManagerMock);
         
 
