@@ -1,0 +1,39 @@
+{
+    "name": "raindrop/routing-bundle",
+    "type": "symfony-bundle",
+    "description": "Symfony RoutingExtraBundle",
+    "keywords": ["routing", "router", "database", "doctrine"],
+    "homepage": "https://github.com/raindropdevs",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Raindrop Dev Team",
+            "homepage": "https://github.com/raindropdevs/RaindropRoutingBundle/graphs/contributors"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "php": ">=5.3.3",
+        "symfony/framework-bundle": "2.1.*",
+        "symfony/monolog-bundle": ">=2.1,<3",
+        "doctrine/doctrine-bundle": "1.1.x-dev",
+        "doctrine/orm": ">=2.2.3,<2.4-dev"
+    },
+    "require-dev": {
+        "symfony/class-loader": "2.1.*",
+        "symfony/yaml": "2.1.*",
+        "symfony/form": "2.1.*",
+        "symfony/finder": "2.1.*"
+    },
+    "suggests": {
+    },
+    "autoload": {
+        "psr-0": { "Raindrop\\RoutingBundle": "" }
+    },
+    "target-dir": "Raindrop/RoutingBundle",
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0-dev"
+        }
+    }
+}
