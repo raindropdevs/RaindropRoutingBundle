@@ -26,7 +26,7 @@ class ExternalRoute implements ExternalRouteInterface
     private $uri;
     
     /**
-     * @ORM\Column(type="boolean")
+     * @ORM\Column(type="boolean", nullable=true)
      */
     protected $permanent;
 

@@ -189,7 +189,7 @@ class DynamicRouter implements RouterInterface
      */
     public function match($url)
     {
-        $routes = $this->routeRepository->findManyByUrl($url);
+        $routes = $this->routeRepository->findRouteByUrl($url);
         $defaults = $this->getMatcher($routes)->match($url);
         $route = $routes->get($defaults['_route']);
 

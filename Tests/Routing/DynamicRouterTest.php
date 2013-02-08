@@ -12,7 +12,7 @@ class DynamicRouterTest extends BaseTestCase {
     
     public function testGetMatcher()
     {
-        $repository = $this->buildMock("Raindrop\\RoutingBundle\\Routing\\Base\\RouteRepositoryInterface", array('findManyByUrl', 'getRouteByName'));
+        $repository = $this->buildMock("Raindrop\\RoutingBundle\\Routing\\Base\\RouteRepositoryInterface", array('findRouteByUrl', 'getRouteByName'));
         $router = new DynamicRouter($repository);
         $context = $this->buildMock('Symfony\\Component\\Routing\\RequestContext');
         $router->setContext($context);
@@ -36,9 +36,9 @@ class DynamicRouterTest extends BaseTestCase {
         $collection = new RouteCollection;
         $collection->add($name, $routeEntity);
         
-        $repository = $this->buildMock("Raindrop\\RoutingBundle\\Routing\\Base\\RouteRepositoryInterface", array('findManyByUrl', 'getRouteByName'));
+        $repository = $this->buildMock("Raindrop\\RoutingBundle\\Routing\\Base\\RouteRepositoryInterface", array('findRouteByUrl', 'getRouteByName'));
         $repository->expects($this->once())
-            ->method('findManyByUrl')
+            ->method('findRouteByUrl')
             ->with($url)
             ->will($this->returnValue($collection));
         
@@ -88,9 +88,9 @@ class DynamicRouterTest extends BaseTestCase {
         $collection = new RouteCollection;
         $collection->add($name, $routeEntity);
         
-        $repository = $this->buildMock("Raindrop\\RoutingBundle\\Routing\\Base\\RouteRepositoryInterface", array('findManyByUrl', 'getRouteByName'));
+        $repository = $this->buildMock("Raindrop\\RoutingBundle\\Routing\\Base\\RouteRepositoryInterface", array('findRouteByUrl', 'getRouteByName'));
         $repository->expects($this->once())
-            ->method('findManyByUrl')
+            ->method('findRouteByUrl')
             ->with($url)
             ->will($this->returnValue($collection));
         
@@ -123,9 +123,9 @@ class DynamicRouterTest extends BaseTestCase {
         $collection = new RouteCollection;
         $collection->add($name, $routeEntity);
 
-        $repository = $this->buildMock("Raindrop\\RoutingBundle\\Routing\\Base\\RouteRepositoryInterface", array('findManyByUrl', 'getRouteByName'));
+        $repository = $this->buildMock("Raindrop\\RoutingBundle\\Routing\\Base\\RouteRepositoryInterface", array('findRouteByUrl', 'getRouteByName'));
         $repository->expects($this->once())
-            ->method('findManyByUrl')
+            ->method('findRouteByUrl')
             ->with($url2)
             ->will($this->returnValue($collection));
 
@@ -144,7 +144,7 @@ class DynamicRouterTest extends BaseTestCase {
 
         $routeEntity = $this->getMockRoute($url, $name, $controller, $locale);
 
-        $repository = $this->buildMock("Raindrop\\RoutingBundle\\Routing\\Base\\RouteRepositoryInterface", array('findManyByUrl', 'getRouteByName'));
+        $repository = $this->buildMock("Raindrop\\RoutingBundle\\Routing\\Base\\RouteRepositoryInterface", array('findRouteByUrl', 'getRouteByName'));
         $repository->expects($this->once())
             ->method('getRouteByName')
             ->with($name, array())
@@ -169,7 +169,7 @@ class DynamicRouterTest extends BaseTestCase {
 
         $name2 = '_test_route2';
 
-        $repository = $this->buildMock("Raindrop\\RoutingBundle\\Routing\\Base\\RouteRepositoryInterface", array('findManyByUrl', 'getRouteByName'));
+        $repository = $this->buildMock("Raindrop\\RoutingBundle\\Routing\\Base\\RouteRepositoryInterface", array('findRouteByUrl', 'getRouteByName'));
         $repository->expects($this->once())
             ->method('getRouteByName')
             ->with($name2, array())

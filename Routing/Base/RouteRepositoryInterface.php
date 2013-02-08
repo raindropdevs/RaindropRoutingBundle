@@ -11,7 +11,7 @@ namespace Raindrop\RoutingBundle\Routing\Base;
 interface RouteRepositoryInterface
 {
     /**
-     * Find routes that could match this absolute path.
+     * Find a route that match this absolute path.
      *
      * This may return a mixed list of class instances, but all routes returned
      * must extend the core symfony route. The classes may also implement
@@ -29,7 +29,7 @@ interface RouteRepositoryInterface
      *
      * @throws \Exception if the underlying storage has an error
      */
-    function findManyByUrl($url);
+    function findRouteByUrl($url);
 
     /**
      * Find the route using the provided route name (and parameters)

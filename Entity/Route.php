@@ -39,7 +39,7 @@ class Route extends SymfonyRoute implements RouteObjectInterface
     protected $path;
 
     /**
-     * @ORM\Column(type="string", length=10)
+     * @ORM\Column(type="string", length=10, nullable=true)
      */
     protected $locale;
 
@@ -49,22 +49,22 @@ class Route extends SymfonyRoute implements RouteObjectInterface
     protected $controller;
 
     /**
-     * @ORM\Column
+     * @ORM\Column(nullable=true)
      */
     protected $routeContent;
 
     /**
-     * @ORM\Column
+     * @ORM\Column(nullable=true)
      */
     protected $format;
     
     /**
-     * @ORM\Column
+     * @ORM\Column(nullable=true)
      */
     protected $method;
     
     /**
-     * @ORM\Column(type="boolean")
+     * @ORM\Column(type="boolean", nullable=true)
      */
     protected $permanent;
     
@@ -230,11 +230,32 @@ class Route extends SymfonyRoute implements RouteObjectInterface
     }
     
     public function getRequirements() {
-        
         return array(
             'path' => $this->path,
-            '_format' => $this->format
+            '_format' => $this->format,
+            '_method' => $this->getMethod()
         );
+    }
+    
+    /**
+     * 
+     * @param array $array
+     * @return \Raindrop\RoutingBundle\Entity\Route
+     */
+    public function setRequirements(array $array) {
+        $reqs = array(
+            'path' => 'setPath',
+            '_format' => 'setFomat',
+            '_method' => 'setMethod'
+        );
+        
+        foreach ($reqs as $key => $method) {
+            if (isset($array[$key])) {
+                $this->$method($array[$key]);
+            }
+        }
+        
+        return $this;
     }
     
     public function getOptions() {
@@ -421,6 +442,9 @@ class Route extends SymfonyRoute implements RouteObjectInterface
      */
     public function getMethod()
     {
+        if (empty($this->method)) {
+            return 'GET';
+        }
         return $this->method;
     }
 
@@ -445,5 +469,20 @@ class Route extends SymfonyRoute implements RouteObjectInterface
     public function getPermanent()
     {
         return $this->permanent;
+    }
+    
+    /**
+     * @ORM\PrePersist
+     */
+    public function prePersist() {
+        $this->setCreated(new \DateTime);
+    }
+    
+    /**
+     * @ORM\PrePersist
+     * @ORM\PreUpdate
+     */
+    public function preUpdate() {
+        $this->setUpdated(new \DateTime);
     }
 }

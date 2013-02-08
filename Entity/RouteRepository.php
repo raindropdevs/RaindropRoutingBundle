@@ -76,7 +76,7 @@ class RouteRepository extends EntityRepository implements RouteRepositoryInterfa
      * object, it is filtered out. In the extreme case this can also lead to an
      * empty list being returned.
      */
-    public function findManyByUrl($url)
+    public function findRouteByUrl($url)
     {
         if (! is_string($url) || strlen($url) < 1 || '/' != $url[0]) {
             throw new RouteNotFoundException("$url is not a valid route");
@@ -87,16 +87,9 @@ class RouteRepository extends EntityRepository implements RouteRepositoryInterfa
         $collection = new RouteCollection();
 
         try {
-            $routes = $this->findByPath($candidates);
-
-            // filter for valid route objects
-            // we can not search for a specific class as PHPCR does not know class inheritance
-            // TODO: but optionally we could define a node type
-            foreach ($routes as $key => $route) {
-
-                if ($route instanceof SymfonyRoute) {
-                    $collection->add($route->getName(), $route);
-                }
+            $route = $this->findOneByPath($candidates);
+            if ($route instanceof SymfonyRoute) {
+                $collection->add($route->getName(), $route);
             }
         } catch (RepositoryException $e) {
             // TODO: how to determine whether this is a relevant exception or not?
