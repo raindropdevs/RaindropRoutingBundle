@@ -23,8 +23,7 @@ class DynamicRouterTest extends BaseTestCase
 
     const ROUTE_ROOT = '/test/routing';
 
-    public static function setupBeforeClass(array $options = array(), $routebase = null)
-    {
+    public static function setupBeforeClass(array $options = array(), $routebase = null) {
         parent::setupBeforeClass(array(), basename(self::ROUTE_ROOT));
         self::$router = self::$kernel->getContainer()->get('router');
 //        self::$routeNamePrefix = self::$kernel->getContainer()->get('symfony_cmf_routing_extra.route_repository')->getRouteNamePrefix();
@@ -33,24 +32,31 @@ class DynamicRouterTest extends BaseTestCase
 
         // do not set a content here, or we need a valid request and so on...
         $route = new Route;
+        $route->setName('test_route');
+        $route->setPath('/test/route');
+        $route->setController('test_controller');
+
+        self::$em->persist($route);
+        self::$em->flush();
+        self::$em->clear();
+
 //        $route->setPosition($root, 'testroute');
 //        $route->setVariablePattern('/{slug}/{id}');
 //        $route->setDefault('id', '0');
 //        $route->setRequirement('id', '[0-9]+');
-        $route->setDefault(RouteObjectInterface::CONTROLLER_NAME, 'testController');
+//        $route->setDefault(RouteObjectInterface::CONTROLLER_NAME, 'testController');
         // TODO: what are the options used for? we should test them too if it makes sense
 //        self::$dm->persist($route);
 
-        $childroute = new Route;
-        $childroute->setPosition($route, 'child');
-        $childroute->setDefault(RouteObjectInterface::CONTROLLER_NAME, 'testController');
+//        $childroute = new Route;
+//        $childroute->setPosition($route, 'child');
+//        $childroute->setDefault(RouteObjectInterface::CONTROLLER_NAME, 'testController');
 //        self::$dm->persist($childroute);
 
 //        self::$dm->flush();
     }
 
-    public function testMatch()
-    {
+    public function testMatch() {
 //        $expected = array(
 //            RouteObjectInterface::CONTROLLER_NAME => 'testController',
 //            '_route'        => self::$routeNamePrefix.'_test_routing_testroute_child',
@@ -59,35 +65,27 @@ class DynamicRouterTest extends BaseTestCase
 //        $matches = self::$router->match('/testroute/child');
 //        ksort($matches);
 //        $this->assertEquals($expected, $matches);
-    }
+        $matches = self::$router->match('/test/route');
 
-    public function testMatchParameters()
-    {
-//        $expected = array(
-//            RouteObjectInterface::CONTROLLER_NAME   => 'testController',
-//            '_route'        => self::$routeNamePrefix.'_test_routing_testroute',
-//            'id'            => '123',
-//            'slug'          => 'child',
-//        );
-//
-//        $matches = self::$router->match('/testroute/child/123');
-//        ksort($matches);
-//        $this->assertEquals($expected, $matches);
+        $this->assertEquals(array(
+            '_controller' => 'test_controller',
+            'content' => null,
+            '_route' => 'test_route',
+            '_locale' => null
+        ), $matches);
     }
 
     /**
      * @expectedException Symfony\Component\Routing\Exception\ResourceNotFoundException
      */
-    public function testNoMatch()
-    {
-        self::$router->match('/random/route');
+    public function testNoMatch() {
+        self::$router->match('/non/existing/route');
     }
 
     /**
      * @expectedException Symfony\Component\Routing\Exception\MethodNotAllowedException
      */
-    public function testNotAllowed()
-    {
+    public function testNotAllowed() {
         // do not set a content here, or we need a valid request and so on...
         $route = new Route;
         $route->setName('not_allowed');
@@ -101,35 +99,21 @@ class DynamicRouterTest extends BaseTestCase
         self::$router->match('/notallowed');
     }
 
-    public function testGenerate()
-    {
-//        $route = self::$dm->find(null, self::ROUTE_ROOT.'/testroute/child');
-//        $url = self::$router->generate('', array('route' => $route, 'test' => 'value'));
-//        $this->assertEquals('/testroute/child?test=value', $url);
+    public function testGenerate() {
+        $route = self::$em->getRepository('Raindrop\RoutingBundle\Entity\Route')->findOneByName('test_route');
+        $url = self::$router->generate('', array('route' => $route));
+        $this->assertEquals('/test/route', $url);
     }
 
-    public function testGenerateAbsolute()
-    {
-//        $route = self::$dm->find(null, self::ROUTE_ROOT.'/testroute/child');
-//        $url = self::$router->generate('', array('route' => $route, 'test' => 'value'), true);
-//        $this->assertEquals('http://localhost/testroute/child?test=value', $url);
+    public function testGenerateAbsolute() {
+        $route = self::$em->getRepository('Raindrop\RoutingBundle\Entity\Route')->findOneByName('test_route');
+        $url = self::$router->generate('', array('route' => $route), true);
+        $this->assertEquals('http://localhost/test/route', $url);
     }
 
-    public function testGenerateParameters()
-    {
-//        $route = self::$dm->find(null, self::ROUTE_ROOT.'/testroute');
-//
-//        $url = self::$router->generate('', array('route' => $route, 'slug' => 'gen-slug', 'test' => 'value'));
-//        $this->assertEquals('/testroute/gen-slug?test=value', $url);
+    public function testGenerateWithParameters() {
+        $route = self::$em->getRepository('Raindrop\RoutingBundle\Entity\Route')->findOneByName('test_route');
+        $url = self::$router->generate('', array('route' => $route, 'param' => 'someValue'), true);
+        $this->assertEquals('http://localhost/test/route?param=someValue', $url);
     }
-
-//    /**
-//     * @expectedException Symfony\Component\Routing\Exception\InvalidParameterException
-//     */
-//    public function testGenerateParametersInvalid()
-//    {
-//        $route = self::$dm->find(null, self::ROUTE_ROOT.'/testroute');
-//
-//        self::$router->generate('', array('route' => $route, 'slug' => 'gen-slug', 'id' => 'nonumber'));
-//    }
 }
