@@ -20,10 +20,6 @@ class DynamicRouterTest extends BaseTestCase {
         $this->assertInstanceOf('Symfony\Component\Routing\Matcher\UrlMatcherInterface', $matcher);
     }
     
-    public function testFindManyByUrl() {
-        
-    }
-    
     public function testMatch() {
         $url = '/test-route';
         $name = '_test_route';
