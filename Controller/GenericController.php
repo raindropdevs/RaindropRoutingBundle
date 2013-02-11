@@ -2,9 +2,8 @@
 
 namespace Raindrop\RoutingBundle\Controller;
 
-use Symfony\Component\HttpFoundation\Response;
+
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Raindrop\RoutingBundle\Entity\ContentInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Raindrop\RoutingBundle\Routing\Base\ExternalRouteInterface;
 
@@ -13,24 +12,6 @@ use Raindrop\RoutingBundle\Routing\Base\ExternalRouteInterface;
  */
 class GenericController extends Controller {
     
-    /**
-     * Retrieve base response and set some headers for http caching.
-     * This relies on the getUpdated method, so the object must implement
-     * a ContentInterface.
-     * 
-     * @param \Raindrop\RoutingBundle\Entity\ContentInterface $object
-     * @return \Symfony\Component\HttpFoundation\Response
-     */
-    public function getBaseResponse(ContentInterface $object) {
-
-        $response = new Response;
-        $response->setPublic();
-        $response->setLastModified($object->getUpdated());
-        $response->headers->set('Expires', gmdate("D, d M Y H:i:s", time() + 86400) . " GMT");
-        
-        return $response;
-    }
-
     /**
      * Returns a 301/302 redirect response based on content parameters.
      * 
@@ -58,22 +39,15 @@ class GenericController extends Controller {
         return $response;
     }
     
-
+    
     /**
      * Renders a template given an object.
      * 
      * @param type $content
      * @return type
      */
-    public function templateAction(ContentInterface $content) {
+    public function templateAction($content) {
 
-        $response = $this->getBaseResponse($content);
-
-        if ($response->isNotModified($this->getRequest())) {
-            // return the 304 Response immediately
-            return $response;
-        }
-        
-        return $this->render($content->getTemplate(), $content->getArray(), $response);
+        return $this->get('raindrop_routing.response_manager')->response($content, $content->getTemplate(), $content->getArray());
     }
 }

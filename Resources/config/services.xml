@@ -12,7 +12,8 @@
         <parameter key="raindrop_routing_bundle.route_repository_class">Raindrop\RoutingBundle\Entity\RouteRepository</parameter>
 
         <parameter key="raindrop_routing_bundle.content_postload_listener">Raindrop\RoutingBundle\Listener\PostLoadListener</parameter>
-        <parameter key="raindrop_routing.generic_controller_class">Raindrop\RoutingBundle\Controller\GenericController</parameter>
+        <parameter key="raindrop_routing_bundle.generic_controller_class">Raindrop\RoutingBundle\Controller\GenericController</parameter>
+        <parameter key="raindrop_routing_bundle.response_manager_class">Raindrop\RoutingBundle\Response\Manager</parameter>
     </parameters>
 
     <services>
@@ -38,8 +39,14 @@
             <tag name="doctrine.event_listener" event="postLoad"></tag>
         </service>
 
-        <service id="raindrop_routing.generic_controller" class="%raindrop_routing.generic_controller_class%">
+        <service id="raindrop_routing.generic_controller" class="%raindrop_routing_bundle.generic_controller_class%">
             <call method="setContainer"><argument type="service" id="service_container"/></call>
+        </service>
+
+        <service id="raindrop_routing.response_manager" class="%raindrop_routing_bundle.response_manager_class%">
+            <call method="setContainer">
+                <argument type="service" id="service_container" />
+            </call>
         </service>
     </services>
 </container>
