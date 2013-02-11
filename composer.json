@@ -1,7 +1,7 @@
 {
     "name": "raindrop/routing-bundle",
     "type": "symfony-bundle",
-    "description": "Symfony RoutingExtraBundle",
+    "description": "Symfony Raindrop RoutingBundle",
     "keywords": ["routing", "router", "database", "doctrine"],
     "homepage": "https://github.com/raindropdevs",
     "license": "MIT",
