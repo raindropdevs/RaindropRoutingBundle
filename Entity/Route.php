@@ -318,11 +318,12 @@ class Route extends SymfonyRoute implements RouteObjectInterface
      * @param string $field
      */
     public function setContent($content, $field = 'id', $value = null) {
-        $this->content = $content;
-
+        
         if (is_array($content)) {
             return $this->setCollection($content, $field, $value);
         }
+        
+        $this->content = $content;
 
         $getter = 'get' . ucfirst($field);
         $routeContentArray = array(get_class($content), $field, $content->$getter());
@@ -338,6 +339,12 @@ class Route extends SymfonyRoute implements RouteObjectInterface
     }
     
     public function setCollection($collection, $field, $value) {
+        
+        if (empty($field) or empty($value)) {
+            throw new \Exception('Route::setCollection method requires both field and value parameters.');
+        }
+        
+        $this->content = $collection;
         $routeContentArray = array(get_class($collection[0]), $field . '(s)', $value);
         $this->setRouteContent(implode(':', $routeContentArray));
         return $this;
