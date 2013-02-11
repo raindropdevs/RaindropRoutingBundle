@@ -75,7 +75,7 @@ class BaseTestCase extends WebTestCase
             'command' => 'doctrine:schema:drop',
             '--force' => true
         ));
-        $command->run($input, new ConsoleOutput());
+        $command->run($input, new ConsoleOutput(0));
 
         // let Doctrine create the database schema (i.e. the tables)
         $command = new CreateSchemaDoctrineCommand();
@@ -83,6 +83,6 @@ class BaseTestCase extends WebTestCase
         $input = new ArrayInput(array(
             'command' => 'doctrine:schema:update',
         ));
-        $command->run($input, new ConsoleOutput());
+        $command->run($input, new ConsoleOutput(0));
     }
 }
