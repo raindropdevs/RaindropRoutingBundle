@@ -106,10 +106,6 @@ class RouteTest extends BaseTestCase
 
         $this->assertEquals('Raindrop\RoutingBundle\Tests\Functional\Entity\RecordStub:locale(s):en', $route->getRouteContent());
     }
-    
-//    public function testGetCollection() {
-//        
-//    }
 }
 
 
