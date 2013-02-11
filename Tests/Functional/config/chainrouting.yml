@@ -1,0 +1,7 @@
+raindrop_routing:
+    chain:
+        routers_by_id:
+            raindrop_routing.dynamic_router: 20
+            router.default: 100
+#    dynamic:
+#        enabled: true
