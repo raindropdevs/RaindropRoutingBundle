@@ -18,15 +18,13 @@ class Configuration implements ConfigurationInterface
     public function getConfigTreeBuilder()
     {
         $treeBuilder = new TreeBuilder();
-
-        // Here you should define the parameters that are allowed to
-        // configure your bundle. See the documentation linked above for
-        // more information on that topic.
         $treeBuilder->root('raindrop_routing')
             ->children()
                 ->arrayNode('chain')
+                    ->addDefaultsIfNotSet()
                     ->children()
                         ->arrayNode('routers_by_id')
+                            ->defaultValue(array('router.default' => 100))
                             ->useAttributeAsKey('id')
                             ->prototype('scalar')->end()
                         ->end()
