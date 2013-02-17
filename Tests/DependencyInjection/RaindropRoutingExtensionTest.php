@@ -30,8 +30,6 @@ class RaindropRoutingExtensionTest extends \PHPUnit_Framework_TestCase
         $alias = $builder->getAlias('router');
         $this->assertEquals('raindrop_routing.router', $alias->__toString());
 
-//        $this->assertTrue($builder->getParameter('raindrop_routing.replace_symfony_router'));
-
         $this->assertTrue($builder->hasDefinition('raindrop_routing.router'));
         $methodCalls = $builder->getDefinition('raindrop_routing.router')->getMethodCalls();
         $addMethodCalls = array_filter(
