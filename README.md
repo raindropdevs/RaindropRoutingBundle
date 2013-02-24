@@ -146,6 +146,8 @@ To use the setter pass an array and the other parameters:
 $route->setContent($array, $field, $value);
 ```
 
+```$value``` parameter can be implicit: ```$route->setContent($array, $field);```. It will be retrieved from first array element, as well as class type.
+
 #### Bind routes to other routes:
 
 To obtain this, point the redirecting route to the target one and set the redirection controller (or another one that does the job).
