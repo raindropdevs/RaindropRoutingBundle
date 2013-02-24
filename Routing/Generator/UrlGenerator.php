@@ -6,7 +6,7 @@ use Symfony\Component\Routing\Generator\UrlGenerator as BaseUrlGenerator;
 
 /**
  * This class gets extended just to avoid querying route content
- * which is useless for route generation but produces a lot of single
+ * which is useless for route generation but results in a lot of single
  * queries.
  * This should save resources when rendering a hundred elements menu
  * for example.
@@ -23,7 +23,7 @@ class UrlGenerator extends BaseUrlGenerator {
 
         // the Route has a cache of its own and is not recompiled as long as it does not get modified
         $compiledRoute = $route->compile();
-        
+
         // RaindropRoutingBundle: since the Route path is fully saved to database, there's no need of defaults.
         $routeDefaults = array(
             '_locale' => $route->getLocale()

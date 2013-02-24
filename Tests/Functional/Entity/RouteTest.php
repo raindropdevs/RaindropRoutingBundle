@@ -4,7 +4,6 @@ namespace Raindrop\RoutingBundle\Tests\Functional\Entity;
 
 use Raindrop\RoutingBundle\Entity\Route;
 use Raindrop\RoutingBundle\Tests\Functional\BaseTestCase;
-use Raindrop\RoutingBundle\Entity\SampleEntity;
 
 class RouteTest extends BaseTestCase
 {
@@ -22,15 +21,15 @@ class RouteTest extends BaseTestCase
         $route->setPath('/path/to/a/route');
         $route->setController('AcmeDemoBundle:Default:index');
         self::$em->persist($route);
-        
+
         self::$em->flush();
         self::$em->clear();
-        
+
         $return = self::$em->getRepository('Raindrop\RoutingBundle\Entity\Route')->findOneByPath('/path/to/a/route');
         $this->assertEquals('a_route', $return->getName());
         $this->assertEquals('/path/to/a/route', $return->getPath());
         $this->assertEquals('AcmeDemoBundle:Default:index', $return->getController());
-        
+
         $defaults = $return->getDefaults();
         $this->assertEquals($route->getDefaults(), $defaults);
         $this->assertArrayHasKey('_locale', $defaults);
@@ -42,7 +41,7 @@ class RouteTest extends BaseTestCase
         $this->assertArrayHasKey('_method', $requirements);
         $this->assertArrayHasKey('_format', $requirements);
         $this->assertArrayHasKey('path', $requirements);
-        
+
 //        $options = $route->getOptions();
 //        $this->assertArrayHasKey('compiler_class', $options);
     }
@@ -80,31 +79,41 @@ class RouteTest extends BaseTestCase
         self::$em->persist($content);
         self::$em->flush();
         self::$em->clear();
-        
+
         $id = $content->getId();
-        
+
         $route = new Route;
         $route->setContent($content);
         $this->assertEquals('Raindrop\RoutingBundle\Entity\Route::' . $id, $route->getRouteContent());
     }
-    
-    public function testSetContentWithField() {        
+
+    public function testSetContentWithField() {
         $content = new RecordStub;
 
         $route = new Route;
         $route->setContent($content, 'locale');
         $this->assertEquals('Raindrop\RoutingBundle\Tests\Functional\Entity\RecordStub:locale:en', $route->getRouteContent());
     }
-    
+
     public function testSetContentArray() {
         $content = new RecordStub;
         $content2 = new RecordStub;
 
         $collection = array($content, $content2);
         $route = new Route;
-        $route->setContent($collection, 'locale', 'en');
+        $route->setContent($collection, 'locale');
 
         $this->assertEquals('Raindrop\RoutingBundle\Tests\Functional\Entity\RecordStub:locale(s):en', $route->getRouteContent());
+    }
+
+    /**
+     * @expectedException Symfony\Component\Routing\Exception\InvalidParameterException
+     */
+    public function testSetInvalidContentArray() {
+        $content = new RecordStub;
+
+        $route = new Route;
+        $route->setContent(array($content));
     }
 }
 
@@ -113,7 +122,7 @@ class RecordStub {
     public function getLocale() {
         return 'en';
     }
-    
+
     public function getId() {
         return 1;
     }

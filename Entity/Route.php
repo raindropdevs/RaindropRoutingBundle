@@ -4,6 +4,7 @@ namespace Raindrop\RoutingBundle\Entity;
 
 use Symfony\Component\Routing\Route as SymfonyRoute;
 use Raindrop\RoutingBundle\Routing\Base\RouteObjectInterface;
+use Symfony\Component\Routing\Exception\InvalidParameterException;
 
 
 use Doctrine\ORM\Mapping as ORM;
@@ -57,17 +58,17 @@ class Route extends SymfonyRoute implements RouteObjectInterface
      * @ORM\Column(nullable=true)
      */
     protected $format;
-    
+
     /**
      * @ORM\Column(nullable=true)
      */
     protected $method;
-    
+
     /**
      * @ORM\Column(type="boolean", nullable=true)
      */
     protected $permanent;
-    
+
     /**
      * @ORM\Column(type="datetime")
      */
@@ -78,19 +79,19 @@ class Route extends SymfonyRoute implements RouteObjectInterface
      */
     protected $updated;
 
-    
+
     /**
      * TODO: This is a wish-to-have feature :D
      * parent document
      */
     protected $parentId;
 
-    
+
     /**
      * This property is populated at runtime.
      */
     protected $content;
-    
+
 
     /**
      * Variable pattern part. The static part of the pattern is the id without the prefix.
@@ -103,7 +104,7 @@ class Route extends SymfonyRoute implements RouteObjectInterface
     protected $defaults = array();
 
 
-    
+
     protected $needRecompile = false;
 
     /**
@@ -123,7 +124,7 @@ class Route extends SymfonyRoute implements RouteObjectInterface
     public function setLocale($locale)
     {
         $this->locale = $locale;
-    
+
         return $this;
     }
 
@@ -140,7 +141,7 @@ class Route extends SymfonyRoute implements RouteObjectInterface
     public function setController($controller)
     {
         $this->controller = $controller;
-    
+
         return $this;
     }
 
@@ -180,7 +181,7 @@ class Route extends SymfonyRoute implements RouteObjectInterface
     public function setPath($path)
     {
         $this->path = $path;
-        
+
         return $this;
     }
 
@@ -217,7 +218,7 @@ class Route extends SymfonyRoute implements RouteObjectInterface
     }
 
     /**
-     * 
+     *
      * prepare hashmaps into mapped properties to store them
      */
     public function init($entityManager = null)
@@ -228,7 +229,7 @@ class Route extends SymfonyRoute implements RouteObjectInterface
 
         $this->setOptions(array());
     }
-    
+
     public function getRequirements() {
         return array(
             'path' => $this->path,
@@ -236,9 +237,9 @@ class Route extends SymfonyRoute implements RouteObjectInterface
             '_method' => $this->getMethod()
         );
     }
-    
+
     /**
-     * 
+     *
      * @param array $array
      * @return \Raindrop\RoutingBundle\Entity\Route
      */
@@ -248,16 +249,16 @@ class Route extends SymfonyRoute implements RouteObjectInterface
             '_format' => 'setFomat',
             '_method' => 'setMethod'
         );
-        
+
         foreach ($reqs as $key => $method) {
             if (isset($array[$key])) {
                 $this->$method($array[$key]);
             }
         }
-        
+
         return $this;
     }
-    
+
     public function getOptions() {
         return array();
     }
@@ -266,7 +267,7 @@ class Route extends SymfonyRoute implements RouteObjectInterface
     {
         return $this->name;
     }
-    
+
     public function getDefaults() {
         return array(
             '_locale' => $this->getLocale(),
@@ -274,27 +275,27 @@ class Route extends SymfonyRoute implements RouteObjectInterface
             'content' => $this->getContent()
         );
     }
-    
+
     public function setEntityManager($entityManager) {
         $this->entityManager = $entityManager;
     }
-    
+
     /**
      * Returns object attached to route
-     * 
+     *
      * @return null
      */
     public function getContent() {
         if (!empty($this->content)) {
             return $this->content;
         }
-        
+
         if (!empty($this->routeContent)) {
             list($model, $field, $value) = explode(':', $this->routeContent);
             if (empty($field) or $field === 'id') {
                 $this->content = $this->entityManager->getRepository($model)->find($value);
             } else {
-                
+
                 if (substr($field, strlen($field)-3) === '(s)') {
                     $finderMethod = 'findBy' . ucfirst(substr($field, 0, strlen($field)-3));
                 } else {
@@ -309,20 +310,20 @@ class Route extends SymfonyRoute implements RouteObjectInterface
 
         return null;
     }
-    
+
     /**
      * Sets content as attached object and populates
      * 'routeContent' property.
-     * 
+     *
      * @param object $content
      * @param string $field
      */
     public function setContent($content, $field = 'id', $value = null) {
-        
+
         if (is_array($content)) {
             return $this->setCollection($content, $field, $value);
         }
-        
+
         $this->content = $content;
 
         $getter = 'get' . ucfirst($field);
@@ -337,13 +338,18 @@ class Route extends SymfonyRoute implements RouteObjectInterface
 
         return $this;
     }
-    
+
     public function setCollection($collection, $field, $value) {
-        
-        if (empty($field) or empty($value)) {
-            throw new \Exception('Route::setCollection method requires both field and value parameters.');
+
+        if ($field === 'id') {
+            throw new InvalidParameterException('Route::setCollection field parameter cannot be an id');
         }
-        
+
+        if (is_null($value)) {
+            $getter = 'get' . ucfirst($field);
+            $value = $collection[0]->$getter();
+        }
+
         $this->content = $collection;
         $routeContentArray = array(get_class($collection[0]), $field . '(s)', $value);
         $this->setRouteContent(implode(':', $routeContentArray));
@@ -353,7 +359,7 @@ class Route extends SymfonyRoute implements RouteObjectInterface
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -369,14 +375,14 @@ class Route extends SymfonyRoute implements RouteObjectInterface
     public function setCreated($created)
     {
         $this->created = $created;
-    
+
         return $this;
     }
 
     /**
      * Get created
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getCreated()
     {
@@ -392,14 +398,14 @@ class Route extends SymfonyRoute implements RouteObjectInterface
     public function setUpdated($updated)
     {
         $this->updated = $updated;
-    
+
         return $this;
     }
 
     /**
      * Get updated
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getUpdated()
     {
@@ -415,14 +421,14 @@ class Route extends SymfonyRoute implements RouteObjectInterface
     public function setFormat($format)
     {
         $this->format = $format;
-    
+
         return $this;
     }
 
     /**
      * Get format
      *
-     * @return string 
+     * @return string
      */
     public function getFormat()
     {
@@ -438,14 +444,14 @@ class Route extends SymfonyRoute implements RouteObjectInterface
     public function setMethod($method)
     {
         $this->method = $method;
-    
+
         return $this;
     }
 
     /**
      * Get method
      *
-     * @return string 
+     * @return string
      */
     public function getMethod()
     {
@@ -464,27 +470,27 @@ class Route extends SymfonyRoute implements RouteObjectInterface
     public function setPermanent($permanent = true)
     {
         $this->permanent = $permanent;
-    
+
         return $this;
     }
 
     /**
      * Get permanent
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getPermanent()
     {
         return $this->permanent;
     }
-    
+
     /**
      * @ORM\PrePersist
      */
     public function prePersist() {
         $this->setCreated(new \DateTime);
     }
-    
+
     /**
      * @ORM\PrePersist
      * @ORM\PreUpdate

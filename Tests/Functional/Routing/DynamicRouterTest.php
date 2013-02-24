@@ -101,19 +101,19 @@ class DynamicRouterTest extends BaseTestCase
 
     public function testGenerate() {
         $route = self::$em->getRepository('Raindrop\RoutingBundle\Entity\Route')->findOneByName('test_route');
-        $url = self::$router->generate('', array('route' => $route));
+        $url = self::$router->generate('test', array('route' => $route));
         $this->assertEquals('/test/route', $url);
     }
 
     public function testGenerateAbsolute() {
         $route = self::$em->getRepository('Raindrop\RoutingBundle\Entity\Route')->findOneByName('test_route');
-        $url = self::$router->generate('', array('route' => $route), true);
+        $url = self::$router->generate('test', array('route' => $route), true);
         $this->assertEquals('http://localhost/test/route', $url);
     }
 
     public function testGenerateWithParameters() {
         $route = self::$em->getRepository('Raindrop\RoutingBundle\Entity\Route')->findOneByName('test_route');
-        $url = self::$router->generate('', array('route' => $route, 'param' => 'someValue'), true);
+        $url = self::$router->generate('test', array('route' => $route, 'param' => 'someValue'), true);
         $this->assertEquals('http://localhost/test/route?param=someValue', $url);
     }
 }

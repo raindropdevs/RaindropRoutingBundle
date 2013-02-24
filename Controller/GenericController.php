@@ -11,10 +11,10 @@ use Raindrop\RoutingBundle\Routing\Base\ExternalRouteInterface;
  * Base generic controller
  */
 class GenericController extends Controller {
-    
+
     /**
      * Returns a 301/302 redirect response based on content parameters.
-     * 
+     *
      * @param \Raindrop\RoutingBundle\Routing\Base\ExternalRouteInterface $content
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
@@ -38,11 +38,11 @@ class GenericController extends Controller {
         $response->setVary('accept-language');
         return $response;
     }
-    
-    
+
+
     /**
      * Renders a template given an object.
-     * 
+     *
      * @param type $content
      * @return type
      */

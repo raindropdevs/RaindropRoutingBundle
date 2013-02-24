@@ -24,11 +24,11 @@ class RouteRepositoryTest extends BaseTestCase
         $route->setName('route_repo_test');
         $route->setPath('/path/to/repo');
         $route->setController('GenericBundle:Default:index');
-        
+
         self::$em->persist($route);
         self::$em->flush();
         self::$em->clear();
-        
+
 //        $route = new Route;
 //        $root = self::$dm->find(null, self::ROUTE_ROOT);
 //
@@ -48,16 +48,15 @@ class RouteRepositoryTest extends BaseTestCase
 //        self::$dm->flush();
 //
 //        self::$dm->clear();
-//
-        $collection = self::$repository->findRouteByUrl('/path/to/repo');
-        $this->assertInstanceOf('Symfony\Component\Routing\RouteCollection', $collection);
-        $return = $collection->get('route_repo_test');
-        $this->assertInstanceOf('Raindrop\\RoutingBundle\\Routing\\Base\\RouteObjectInterface', $return);
-//        $this->assertCount(3, $routes);
-//
-//        foreach ($routes as $route) {
-//            $this->assertInstanceOf('Symfony\\Cmf\\Component\\Routing\\RouteObjectInterface', $route);
-//        }
+
+        $routes = self::$repository->findRouteByUrl('/path/to/repo');
+        $this->assertInstanceOf('Symfony\Component\Routing\RouteCollection', $routes);
+
+        foreach ($routes as $route) {
+            $this->assertInstanceOf('Raindrop\\RoutingBundle\\Routing\\Base\\RouteObjectInterface', $route);
+        }
+
+        $this->assertCount(1, $routes);
     }
 
     /**
