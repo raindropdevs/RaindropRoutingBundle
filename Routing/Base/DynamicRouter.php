@@ -34,19 +34,10 @@ use Raindrop\RoutingBundle\Routing\Base\ContentRepositoryInterface;
 class DynamicRouter implements RouterInterface
 {
     /**
-     * Symfony routes always need a name in the collection. We generate routes
-     * based on the route object, but need to use a name for example in error
-     * reporting.
-     * When generating, we just use this prefix, when matching, we append
-     * whatever the repository returned as ID, replacing anything but
-     * [^a-z0-9A-Z_.] with "_" to get unique valid route names.
-     */
-    const ROUTE_GENERATE_DUMMY_NAME = 'cmf_routing_dynamic_route';
-
-    /**
      * @var array of ControllerMapperInterface
      */
     protected $mappers = array();
+
     /**
      * The route repository to get routes from
      *
@@ -81,10 +72,10 @@ class DynamicRouter implements RouterInterface
 
     public function setGenerator($generator) {
         $this->generator = $generator;
-        
+
         return $this;
     }
-    
+
     /**
      * Add as many mappers as you want, they are asked for the controller in
      * the order they are added here.
@@ -142,9 +133,9 @@ class DynamicRouter implements RouterInterface
         }
 
         $collection = new RouteCollection();
-        $collection->add(self::ROUTE_GENERATE_DUMMY_NAME, $route);
+        $collection->add($name, $route);
 
-        return $this->getGenerator($collection)->generate(self::ROUTE_GENERATE_DUMMY_NAME, $parameters, $absolute);
+        return $this->getGenerator($collection)->generate($name, $parameters, $absolute);
     }
 
     /**

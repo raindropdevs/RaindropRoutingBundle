@@ -8,17 +8,17 @@ use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class Manager implements ContainerAwareInterface {
-    
+
     protected $container;
-    
+
     public function setContainer(ContainerInterface $container = null) {
         $this->container = $container;
     }
-    
+
     /**
      * Retrieves a base response with proper last-modified/expires headers
      * for http caching
-     * 
+     *
      * @param \Raindrop\RoutingBundle\Entity\ContentInterface $content
      * @param type $template template name
      * @param type $parameters array of template variables

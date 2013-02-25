@@ -42,7 +42,7 @@ class BaseTestCase extends WebTestCase
 
 
         $application = new Application(self::$kernel);
- 
+
 
         // add the database:drop command to the application and run it
 //        $command = new DropDatabaseDoctrineCommand();
@@ -52,15 +52,15 @@ class BaseTestCase extends WebTestCase
 //            '--force' => true,
 //        ));
 //        $command->run($input, new ConsoleOutput());
-        
+
 //        var_dump(self::$kernel->getContainer()->get('doctrine')->getConnection()->connect());
-//        
+//
 //        var_dump(get_class(self::$kernel->getContainer()->get('doctrine')->getConnection()));
 //        var_dump(self::$kernel->getContainer()->get('doctrine')->getConnection()->getDatabase());
 //        die();
-        
-        
-        
+
+
+
         // add the database:create command to the application and run it
 //        $command = new CreateDatabaseDoctrineCommand();
 //        $application->add($command);
@@ -78,11 +78,11 @@ class BaseTestCase extends WebTestCase
         $command->run($input, new ConsoleOutput(0));
 
         // let Doctrine create the database schema (i.e. the tables)
-        $command = new CreateSchemaDoctrineCommand();
-        $application->add($command);
-        $input = new ArrayInput(array(
+        $command2 = new CreateSchemaDoctrineCommand();
+        $application->add($command2);
+        $input2 = new ArrayInput(array(
             'command' => 'doctrine:schema:update',
         ));
-        $command->run($input, new ConsoleOutput(0));
+        $command2->run($input2, new ConsoleOutput(0));
     }
 }
