@@ -2,7 +2,9 @@
 
 [![Build Status](https://travis-ci.org/raindropdevs/RaindropRoutingBundle.png?branch=develop)](https://travis-ci.org/raindropdevs/RaindropRoutingBundle)
 
-This bundle is based on routing extra bundle for symfony-cmf.
+This bundle is based on routing extra bundle for symfony-cmf (available at https://github.com/symfony-cmf/RoutingExtraBundle).
+If you want to use PHPCR ODM, the symfony cmf routing extra bundle features more routing options. This is the ORM simplified version.
+
 It replaces symfony router with a chain router, appends standard router and dynamic router to it (as specified into configuration). This allows you to save routes to database and continue using symfony standard routing.
 
 All routers attached to chain router can be sorted using a priority key specified into configuration.
