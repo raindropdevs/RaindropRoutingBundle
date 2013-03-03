@@ -151,10 +151,15 @@ class DynamicRouter implements RouterInterface
         return new UrlGenerator($collection, $this->context);
     }
 
+
     public function getRouteCollection()
     {
-        /* TODO */
-        return new RouteCollection();
+        $collection = new RouteCollection;
+        $routes = $this->routeRepository->findAll();
+        foreach ($routes as $route) {
+            $collection->add($route->getName(), $route);
+        }
+        return $collection;
     }
 
     /**
