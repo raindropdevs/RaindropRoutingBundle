@@ -52,6 +52,9 @@ class RouteRepository extends EntityRepository implements RouteRepositoryInterfa
 
     protected function getCandidates($url)
     {
+
+        // @TODO: clean url - teo
+
         /**
          * Clean the url by removing trailing slash
          * and multiple slash which is what most servers do
@@ -62,13 +65,13 @@ class RouteRepository extends EntityRepository implements RouteRepositoryInterfa
 //        $url = preg_replace('/[\/]+/', '/', $url);
 
         // check for .json .html or .xml formats
-        if (strpos($url, '.')) {
-            $pos = strrpos($url, '.') + 1;
-            $chunk = substr($url, $pos);
-            if ($chunk === 'html' || $chunk === 'json' || $chunk === 'xml') {
-                $url = substr($url, 0, $pos - 1);
-            }
-        }
+//        if (strpos($url, '.')) {
+//            $pos = strrpos($url, '.') + 1;
+//            $chunk = substr($url, $pos);
+//            if ($chunk === 'html' || $chunk === 'json' || $chunk === 'xml') {
+//                $url = substr($url, 0, $pos - 1);
+//            }
+//        }
 
         return $url;
     }
