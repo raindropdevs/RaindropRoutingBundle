@@ -52,20 +52,25 @@ class RouteRepository extends EntityRepository implements RouteRepositoryInterfa
 
     protected function getCandidates($url)
     {
-        $part = $url;
-        $candidates = array();
-        
-        if ('/' !== $url) {
-            while (false !== ($pos = strrpos($part, '/'))) {
-                $candidates[] = $part;
-                $part = substr($url, 0, $pos);
-            }
-        } else {
-            $candidates []= $url;
-        }
-        // $candidates[] = $this->idPrefix;
+        /**
+         * Clean the url by removing trailing slash
+         * and multiple slash which is what most servers do
+         * with directories.
+         * EG: /en//contacts.json/ is cleaned to /en/contacts
+         */
+//        $url = rtrim($url, "/");
+//        $url = preg_replace('/[\/]+/', '/', $url);
 
-        return $candidates;
+        // check for .json .html or .xml formats
+        if (strpos($url, '.')) {
+            $pos = strrpos($url, '.') + 1;
+            $chunk = substr($url, $pos);
+            if ($chunk === 'html' || $chunk === 'json' || $chunk === 'xml') {
+                $url = substr($url, 0, $pos - 1);
+            }
+        }
+
+        return $url;
     }
 
     /**

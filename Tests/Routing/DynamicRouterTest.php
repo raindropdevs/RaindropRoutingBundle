@@ -9,7 +9,7 @@ use Symfony\Component\Routing\Route;
 
 
 class DynamicRouterTest extends BaseTestCase {
-    
+
     public function testGetMatcher()
     {
         $repository = $this->buildMock("Raindrop\\RoutingBundle\\Routing\\Base\\RouteRepositoryInterface", array('findRouteByUrl', 'getRouteByName'));
@@ -19,25 +19,25 @@ class DynamicRouterTest extends BaseTestCase {
         $matcher = $router->getMatcher(new \Symfony\Component\Routing\RouteCollection());
         $this->assertInstanceOf('Symfony\Component\Routing\Matcher\UrlMatcherInterface', $matcher);
     }
-    
+
     public function testMatch() {
         $url = '/test-route';
         $name = '_test_route';
         $controller = 'NameSpace\\Controller::action';
         $locale = 'en';
-        
+
         $routeEntity = $this->getMockRoute($url, $controller, $locale);
 
-        
+
         $collection = new RouteCollection;
         $collection->add($name, $routeEntity);
-        
+
         $repository = $this->buildMock("Raindrop\\RoutingBundle\\Routing\\Base\\RouteRepositoryInterface", array('findRouteByUrl', 'getRouteByName'));
         $repository->expects($this->once())
             ->method('findRouteByUrl')
             ->with($url)
             ->will($this->returnValue($collection));
-        
+
         $router = new DynamicRouter($repository);
         $context = $this->buildMock('Symfony\\Component\\Routing\\RequestContext');
         $router->setContext($context);
@@ -50,8 +50,40 @@ class DynamicRouterTest extends BaseTestCase {
             'content' => null
         );
         $this->assertEquals($expected, $result);
+
+
+        $url2 = '/test-route/2';
+        $name2 = '_test_route_2';
+        $controller2 = 'NameSpace\\Controller::action';
+        $locale2 = 'it';
+
+        $routeEntity2 = $this->getMockRoute($url2, $controller2, $locale2);
+
+
+        $collection2 = new RouteCollection;
+        $collection2->add($name2, $routeEntity2);
+
+        $repository2 = $this->buildMock("Raindrop\\RoutingBundle\\Routing\\Base\\RouteRepositoryInterface", array('findRouteByUrl', 'getRouteByName'));
+        $repository2->expects($this->once())
+            ->method('findRouteByUrl')
+            ->with($url2)
+            ->will($this->returnValue($collection2));
+
+        $router2 = new DynamicRouter($repository2);
+        $context2 = $this->buildMock('Symfony\\Component\\Routing\\RequestContext');
+        $router2->setContext($context2);
+
+
+        $result2 = $router2->match($url2);
+        $expected2 = array(
+            '_locale' => $locale2,
+            '_controller' => $controller2,
+            '_route' => $name2,
+            'content' => null
+        );
+        $this->assertEquals($expected2, $result2);
     }
-    
+
     public function testMatchWithContent() {
 
         $url = '/test-route';
@@ -60,36 +92,36 @@ class DynamicRouterTest extends BaseTestCase {
         $locale = 'en';
         $content = new ContentMock;
         $content->setId(1);
-        
+
         $repositoryMock = $this->buildMock('\\Doctrine\\ORM\\EntityRepository');
         $repositoryMock->expects($this->once())
             ->method('find')
             ->with(1)
             ->will($this->returnValue($content));
-        
+
         $entityManagerMock = $this->buildMock('\\Doctrine\\ORM\\EntityManager');
         $entityManagerMock->expects($this->once())
             ->method('getRepository')
             ->with('Raindrop\RoutingBundle\Tests\Routing\ContentMock')
             ->will($this->returnValue($repositoryMock));
-        
-        
+
+
         $routeEntity = $this->getMockRoute($url, $controller, $locale);
         $routeEntity->setRouteContent('Raindrop\RoutingBundle\Tests\Routing\ContentMock::1');
         $routeEntity->setEntityManager($entityManagerMock);
-        
 
-        
-        
+
+
+
         $collection = new RouteCollection;
         $collection->add($name, $routeEntity);
-        
+
         $repository = $this->buildMock("Raindrop\\RoutingBundle\\Routing\\Base\\RouteRepositoryInterface", array('findRouteByUrl', 'getRouteByName'));
         $repository->expects($this->once())
             ->method('findRouteByUrl')
             ->with($url)
             ->will($this->returnValue($collection));
-        
+
         $router = new DynamicRouter($repository);
         $context = $this->buildMock('Symfony\\Component\\Routing\\RequestContext');
         $router->setContext($context);
@@ -103,7 +135,7 @@ class DynamicRouterTest extends BaseTestCase {
         );
         $this->assertEquals($expected, $result);
     }
-    
+
     /**
     * @expectedException \Symfony\Component\Routing\Exception\ResourceNotFoundException
     */
@@ -131,7 +163,7 @@ class DynamicRouterTest extends BaseTestCase {
 
         $router->match($url2);
     }
-    
+
     public function testGenerateFromName() {
         $url = '/test-route';
         $name = '_test_route';
@@ -156,8 +188,8 @@ class DynamicRouterTest extends BaseTestCase {
         $result = $router->generate($name);
         $this->assertEquals($url, $result);
     }
-    
-    
+
+
     /**
      * @expectedException \Symfony\Component\Routing\Exception\RouteNotFoundException
      */
@@ -174,7 +206,7 @@ class DynamicRouterTest extends BaseTestCase {
         $router = new DynamicRouter($repository);
         $context = $this->buildMock('Symfony\\Component\\Routing\\RequestContext');
         $router->setContext($context);
-        
+
         $router->generate($name2);
     }
 
@@ -186,7 +218,7 @@ class DynamicRouterTest extends BaseTestCase {
         $routeEntity->setPath($url);
         $routeEntity->setLocale($locale);
         $routeEntity->setController($controller);
-        
+
         return $routeEntity;
     }
 }
@@ -217,10 +249,10 @@ class ContentMock {
     protected $id;
     public function setId($id) {
         $this->id = $id;
-        
+
         return $this;
     }
-    
+
     public function getId() {
         return $this->id;
     }
