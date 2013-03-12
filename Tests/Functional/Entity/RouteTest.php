@@ -3,20 +3,27 @@
 namespace Raindrop\RoutingBundle\Tests\Functional\Entity;
 
 use Raindrop\RoutingBundle\Entity\Route;
+use Raindrop\RoutingBundle\Resolver\ContentResolver;
+
 use Raindrop\RoutingBundle\Tests\Functional\BaseTestCase;
 
 class RouteTest extends BaseTestCase
 {
     const ROUTE_ROOT = '/test/routing';
 
+    protected static $resolver;
+
     public static function setupBeforeClass(array $options = array(), $routebase = null)
     {
         parent::setupBeforeClass(array(), basename(self::ROUTE_ROOT));
+        self::$resolver = new ContentResolver;
+        self::$resolver->setEntityManager(self::$em);
     }
 
     public function testPersist()
     {
         $route = new Route;
+        $route->setResolver(self::$resolver);
         $route->setName('a_route');
         $route->setPath('/path/to/a/route');
         $route->setController('AcmeDemoBundle:Default:index');
@@ -73,6 +80,7 @@ class RouteTest extends BaseTestCase
 
     public function testSetContent() {
         $content = new Route;
+        $content->setResolver(self::$resolver);
         $content->setName('my_route_2');
         $content->setPath('/path/to/my/route2');
         $content->setController('AcmeDemoBundle:Default:hello');
@@ -83,6 +91,7 @@ class RouteTest extends BaseTestCase
         $id = $content->getId();
 
         $route = new Route;
+        $route->setResolver(self::$resolver);
         $route->setContent($content);
         $this->assertEquals('Raindrop\RoutingBundle\Entity\Route::' . $id, $route->getRouteContent());
     }
@@ -91,6 +100,7 @@ class RouteTest extends BaseTestCase
         $content = new RecordStub;
 
         $route = new Route;
+        $route->setResolver(self::$resolver);
         $route->setContent($content, 'locale');
         $this->assertEquals('Raindrop\RoutingBundle\Tests\Functional\Entity\RecordStub:locale:en', $route->getRouteContent());
     }
@@ -101,6 +111,7 @@ class RouteTest extends BaseTestCase
 
         $collection = array($content, $content2);
         $route = new Route;
+        $route->setResolver(self::$resolver);
         $route->setContent($collection, 'locale');
 
         $this->assertEquals('Raindrop\RoutingBundle\Tests\Functional\Entity\RecordStub:locale(s):en', $route->getRouteContent());
@@ -113,6 +124,7 @@ class RouteTest extends BaseTestCase
         $content = new RecordStub;
 
         $route = new Route;
+        $route->setResolver(self::$resolver);
         $route->setContent(array($content));
     }
 }

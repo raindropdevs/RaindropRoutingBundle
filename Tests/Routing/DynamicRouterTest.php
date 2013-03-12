@@ -6,6 +6,7 @@ use Raindrop\RoutingBundle\Tests\BaseTestCase;
 use Raindrop\RoutingBundle\Routing\DynamicRouter;
 use Symfony\Component\Routing\RouteCollection;
 use Symfony\Component\Routing\Route;
+use Raindrop\RoutingBundle\Resolver\ContentResolver;
 
 
 class DynamicRouterTest extends BaseTestCase {
@@ -105,12 +106,13 @@ class DynamicRouterTest extends BaseTestCase {
             ->with('Raindrop\RoutingBundle\Tests\Routing\ContentMock')
             ->will($this->returnValue($repositoryMock));
 
+        $resolver = new ContentResolver;
+        $resolver->setEntityManager($entityManagerMock);
 
-        $routeEntity = $this->getMockRoute($url, $controller, $locale);
+        $routeEntity = $this->getMockRoute($url, $controller, $locale, false);
         $routeEntity->setRouteContent('Raindrop\RoutingBundle\Tests\Routing\ContentMock::1');
         $routeEntity->setEntityManager($entityManagerMock);
-
-
+        $routeEntity->setResolver($resolver);
 
 
         $collection = new RouteCollection;
@@ -123,6 +125,13 @@ class DynamicRouterTest extends BaseTestCase {
             ->will($this->returnValue($collection));
 
         $router = new DynamicRouter($repository);
+        $container = $this->buildMock("Symfony\\Component\\DependencyInjection\\Container");
+        $container
+            ->expects($this->once())
+            ->method('get')
+            ->with('request')
+            ->will($this->returnValue(new RequestStub));
+        $router->setContainer($container);
         $context = $this->buildMock('Symfony\\Component\\Routing\\RequestContext');
         $router->setContext($context);
 
@@ -211,9 +220,11 @@ class DynamicRouterTest extends BaseTestCase {
     }
 
 
-    public function getMockRoute($url, $controller, $locale) {
+    public function getMockRoute($url, $controller, $locale, $withRouteContentMock = true) {
 
-        $routeEntity = $this->buildMock('Raindrop\\RoutingBundle\\Entity\\Route', array('getRouteContent'));
+        // cant figure out why it fails without at least 1 method
+        $routeEntity = $this->buildMock('Raindrop\\RoutingBundle\\Entity\\Route', array('randomMethod'));
+
         $routeEntity->setOptions(array());
         $routeEntity->setPath($url);
         $routeEntity->setLocale($locale);
@@ -227,6 +238,7 @@ class DynamicRouterTest extends BaseTestCase {
 class RouteMock extends Route implements \Raindrop\RoutingBundle\Routing\Base\RouteObjectInterface
 {
     private $locale;
+
     public function __construct($locale = null)
     {
         $this->locale = $locale;
@@ -255,5 +267,21 @@ class ContentMock {
 
     public function getId() {
         return $this->id;
+    }
+}
+
+class AttributesStub
+{
+    public function set($p, $q) {
+        //
+    }
+}
+
+class RequestStub {
+
+    public $attributes;
+
+    public function __construct() {
+        $this->attributes = new AttributesStub;
     }
 }

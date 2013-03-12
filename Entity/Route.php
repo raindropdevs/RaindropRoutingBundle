@@ -107,12 +107,23 @@ class Route extends SymfonyRoute implements RouteObjectInterface
 
     protected $needRecompile = false;
 
+
+    /**
+     * Content resolver
+     * @var type
+     */
+    protected $resolver;
+
     /**
      * Overwrite to be able to create route without pattern
      */
     public function __construct()
     {
         $this->init();
+    }
+
+    public function setResolver($resolver) {
+        $this->resolver = $resolver;
     }
 
     /**
@@ -221,10 +232,10 @@ class Route extends SymfonyRoute implements RouteObjectInterface
      *
      * prepare hashmaps into mapped properties to store them
      */
-    public function init($entityManager = null)
+    public function init($resolver = null)
     {
-        if ($entityManager) {
-            $this->setEntityManager($entityManager);
+        if ($resolver) {
+            $this->setResolver($resolver);
         }
 
         $this->setOptions(array());
@@ -291,20 +302,8 @@ class Route extends SymfonyRoute implements RouteObjectInterface
         }
 
         if (!empty($this->routeContent)) {
-            list($model, $field, $value) = explode(':', $this->routeContent);
-            if (empty($field) or $field === 'id') {
-                $this->content = $this->entityManager->getRepository($model)->find($value);
-            } else {
 
-                if (substr($field, strlen($field)-3) === '(s)') {
-                    $finderMethod = 'findBy' . ucfirst(substr($field, 0, strlen($field)-3));
-                } else {
-                    $finderMethod = 'findOneBy' . ucfirst($field);
-                }
-
-                $this->content = $this->entityManager->getRepository($model)->$finderMethod($value);
-            }
-
+            $this->content = $this->resolver->getContent($this);
             return $this->content;
         }
 
@@ -318,41 +317,11 @@ class Route extends SymfonyRoute implements RouteObjectInterface
      * @param object $content
      * @param string $field
      */
-    public function setContent($content, $field = 'id', $value = null) {
-
-        if (is_array($content)) {
-            return $this->setCollection($content, $field, $value);
-        }
+    public function setContent($content, $field = 'id') {
 
         $this->content = $content;
+        $this->routeContent = $this->resolver->getRouteContent($content, $field);
 
-        $getter = 'get' . ucfirst($field);
-        $routeContentArray = array(get_class($content), $field, $content->$getter());
-
-        // omit 'id' as it is implicit
-        if ($field === 'id') {
-            $routeContentArray[1] = '';
-        }
-
-        $this->setRouteContent(implode(':', $routeContentArray));
-
-        return $this;
-    }
-
-    public function setCollection($collection, $field, $value) {
-
-        if ($field === 'id') {
-            throw new InvalidParameterException('Route::setCollection field parameter cannot be an id');
-        }
-
-        if (is_null($value)) {
-            $getter = 'get' . ucfirst($field);
-            $value = $collection[0]->$getter();
-        }
-
-        $this->content = $collection;
-        $routeContentArray = array(get_class($collection[0]), $field . '(s)', $value);
-        $this->setRouteContent(implode(':', $routeContentArray));
         return $this;
     }
 
