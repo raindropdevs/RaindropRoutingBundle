@@ -47,13 +47,22 @@ Now the bundle is enabled.
 Add following lines to `app/config/config.yml`:
 
 ``` yaml
+doctrine:
+  dbal:
+    types:
+      json: Sonata\Doctrine\Types\JsonType
+```
+
+and
+
+``` yaml
 raindrop_routing:
   chain:
     routers_by_id:
       router.default: 100
       raindrop_routing.dynamic_router: 10
     replace_symfony_router: true
-```        
+```
 
 This will instruct the configuration to detach symfony router, attach chain router
 and append symfony standard router and the dynamic one.
