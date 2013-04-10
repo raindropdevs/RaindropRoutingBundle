@@ -178,6 +178,11 @@ class Route extends SymfonyRoute implements RouteObjectInterface
         return $this->name;
     }
 
+    public function setNameFromPath() {
+        $name = preg_replace("/[\/\-]+/", "_", trim($this->path, '/'));
+        $this->setName($name);
+    }
+
     /**
      * Convenience method to set parent and name at the same time.
      *
