@@ -13,7 +13,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * This class is based on default document for routing table entries from
  * symfony cmf.
- * original from david.buchmann@liip.ch can be found at https://github.com/symfony-cmf/RoutingExtraBundle
+ * original from david.buchmann@liip.ch can be found at https://github.com/symfony-cmf/RoutingBundle
  * ORM version mcaber@gmail.com
  *
  * @ORM\Entity(repositoryClass="Raindrop\RoutingBundle\Entity\RouteRepository")
