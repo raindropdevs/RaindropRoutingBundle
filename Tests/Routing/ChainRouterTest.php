@@ -3,7 +3,7 @@
 /**
  * Those tests are taken and adapted from symfony cmf routing.
  * See more @
- * https://github.com/symfony-cmf/RoutingExtraBundle
+ * https://github.com/symfony-cmf/RoutingBundle
  * https://github.com/symfony-cmf/Routing
  */
 
