@@ -17,6 +17,5 @@ interface RouteAwareInterface
      *
      * @return array of RouteObjectInterface instances that point to this content
      */
-    function getRoutes();
+    public function getRoutes();
 }
-

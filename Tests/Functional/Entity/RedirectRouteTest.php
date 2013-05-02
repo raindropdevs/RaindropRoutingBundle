@@ -3,7 +3,6 @@
 namespace Raindrop\RoutingBundle\Tests\Functional\Entity;
 
 use Raindrop\RoutingBundle\Entity\Route;
-use Raindrop\RoutingBundle\Entity\ExternalRoute;
 use Raindrop\RoutingBundle\Resolver\ContentResolver;
 
 use Raindrop\RoutingBundle\Tests\Functional\BaseTestCase;

@@ -4,11 +4,8 @@ namespace Raindrop\RoutingBundle\Entity;
 
 use Symfony\Component\Routing\Route as SymfonyRoute;
 use Raindrop\RoutingBundle\Routing\Base\RouteObjectInterface;
-use Symfony\Component\Routing\Exception\InvalidParameterException;
-
 
 use Doctrine\ORM\Mapping as ORM;
-
 
 /**
  * This class is based on default document for routing table entries from
@@ -79,19 +76,16 @@ class Route extends SymfonyRoute implements RouteObjectInterface
      */
     protected $updated;
 
-
     /**
      * TODO: This is a wish-to-have feature :D
      * parent document
      */
     protected $parentId;
 
-
     /**
      * This property is populated at runtime.
      */
     protected $content;
-
 
     /**
      * Variable pattern part. The static part of the pattern is the id without the prefix.
@@ -103,10 +97,7 @@ class Route extends SymfonyRoute implements RouteObjectInterface
      */
     protected $defaults = array();
 
-
-
     protected $needRecompile = false;
-
 
     /**
      * Content resolver
@@ -122,14 +113,15 @@ class Route extends SymfonyRoute implements RouteObjectInterface
         $this->init();
     }
 
-    public function setResolver($resolver) {
+    public function setResolver($resolver)
+    {
         $this->resolver = $resolver;
     }
 
     /**
      * Set locale
      *
-     * @param string $locale
+     * @param  string $locale
      * @return Route
      */
     public function setLocale($locale)
@@ -139,14 +131,15 @@ class Route extends SymfonyRoute implements RouteObjectInterface
         return $this;
     }
 
-    public function getLocale() {
+    public function getLocale()
+    {
         return $this->locale;
     }
 
     /**
      * Set controller
      *
-     * @param string $controller
+     * @param  string $controller
      * @return Route
      */
     public function setController($controller)
@@ -156,10 +149,10 @@ class Route extends SymfonyRoute implements RouteObjectInterface
         return $this;
     }
 
-    public function getController() {
+    public function getController()
+    {
         return $this->controller;
     }
-
 
     /**
      * Rename a route by setting its new name.
@@ -178,7 +171,8 @@ class Route extends SymfonyRoute implements RouteObjectInterface
         return $this->name;
     }
 
-    public function setNameFromPath() {
+    public function setNameFromPath()
+    {
         $name = preg_replace("/[\/\-]+/", "_", trim($this->path, '/'));
         $this->setName($name);
     }
@@ -246,7 +240,8 @@ class Route extends SymfonyRoute implements RouteObjectInterface
         $this->setOptions(array());
     }
 
-    public function getRequirements() {
+    public function getRequirements()
+    {
         return array(
             'path' => $this->path,
             '_format' => $this->format,
@@ -256,10 +251,11 @@ class Route extends SymfonyRoute implements RouteObjectInterface
 
     /**
      *
-     * @param array $array
+     * @param  array                                $array
      * @return \Raindrop\RoutingBundle\Entity\Route
      */
-    public function setRequirements(array $array) {
+    public function setRequirements(array $array)
+    {
         $reqs = array(
             'path' => 'setPath',
             '_format' => 'setFomat',
@@ -275,7 +271,8 @@ class Route extends SymfonyRoute implements RouteObjectInterface
         return $this;
     }
 
-    public function getOptions() {
+    public function getOptions()
+    {
         return array();
     }
 
@@ -284,7 +281,8 @@ class Route extends SymfonyRoute implements RouteObjectInterface
         return $this->name;
     }
 
-    public function getDefaults() {
+    public function getDefaults()
+    {
         return array(
             '_locale' => $this->getLocale(),
             '_controller' => $this->getController(),
@@ -292,7 +290,8 @@ class Route extends SymfonyRoute implements RouteObjectInterface
         );
     }
 
-    public function setEntityManager($entityManager) {
+    public function setEntityManager($entityManager)
+    {
         $this->entityManager = $entityManager;
     }
 
@@ -301,7 +300,8 @@ class Route extends SymfonyRoute implements RouteObjectInterface
      *
      * @return null
      */
-    public function getContent() {
+    public function getContent()
+    {
         if (!empty($this->content)) {
             return $this->content;
         }
@@ -309,6 +309,7 @@ class Route extends SymfonyRoute implements RouteObjectInterface
         if (!empty($this->routeContent)) {
 
             $this->content = $this->resolver->getContent($this);
+
             return $this->content;
         }
 
@@ -322,8 +323,8 @@ class Route extends SymfonyRoute implements RouteObjectInterface
      * @param object $content
      * @param string $field
      */
-    public function setContent($content, $field = 'id') {
-
+    public function setContent($content, $field = 'id')
+    {
         $this->content = $content;
         $this->routeContent = $this->resolver->getRouteContent($content, $field);
 
@@ -343,7 +344,7 @@ class Route extends SymfonyRoute implements RouteObjectInterface
     /**
      * Set created
      *
-     * @param \DateTime $created
+     * @param  \DateTime $created
      * @return Route
      */
     public function setCreated($created)
@@ -366,7 +367,7 @@ class Route extends SymfonyRoute implements RouteObjectInterface
     /**
      * Set updated
      *
-     * @param \DateTime $updated
+     * @param  \DateTime $updated
      * @return Route
      */
     public function setUpdated($updated)
@@ -389,7 +390,7 @@ class Route extends SymfonyRoute implements RouteObjectInterface
     /**
      * Set format
      *
-     * @param string $format
+     * @param  string $format
      * @return Route
      */
     public function setFormat($format)
@@ -412,7 +413,7 @@ class Route extends SymfonyRoute implements RouteObjectInterface
     /**
      * Set method
      *
-     * @param string $method
+     * @param  string $method
      * @return Route
      */
     public function setMethod($method)
@@ -432,13 +433,14 @@ class Route extends SymfonyRoute implements RouteObjectInterface
         if (empty($this->method)) {
             return 'GET';
         }
+
         return $this->method;
     }
 
     /**
      * Set permanent
      *
-     * @param boolean $permanent
+     * @param  boolean $permanent
      * @return Route
      */
     public function setPermanent($permanent = true)
@@ -461,7 +463,8 @@ class Route extends SymfonyRoute implements RouteObjectInterface
     /**
      * @ORM\PrePersist
      */
-    public function prePersist() {
+    public function prePersist()
+    {
         $this->setCreated(new \DateTime);
     }
 
@@ -469,7 +472,8 @@ class Route extends SymfonyRoute implements RouteObjectInterface
      * @ORM\PrePersist
      * @ORM\PreUpdate
      */
-    public function preUpdate() {
+    public function preUpdate()
+    {
         $this->setUpdated(new \DateTime);
     }
 }

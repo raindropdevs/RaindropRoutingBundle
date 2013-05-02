@@ -18,7 +18,7 @@ class BaseTestCase extends WebTestCase
      */
     protected static $em;
 
-    static protected function createKernel(array $options = array())
+    protected static function createKernel(array $options = array())
     {
         return new AppKernel(
             isset($options['config']) ? $options['config'] : 'default.yml'
@@ -29,7 +29,7 @@ class BaseTestCase extends WebTestCase
      * careful: the kernel is shut down after the first test, if you need the
      * kernel, recreate it.
      *
-     * @param array $options passed to self::createKernel
+     * @param array  $options   passed to self::createKernel
      * @param string $routebase base name for routes under /test to use
      */
     public static function setupBeforeClass(array $options = array())
@@ -40,9 +40,7 @@ class BaseTestCase extends WebTestCase
 
         self::$em = self::$kernel->getContainer()->get('doctrine')->getManager();
 
-
         $application = new Application(self::$kernel);
-
 
         // add the database:drop command to the application and run it
 //        $command = new DropDatabaseDoctrineCommand();
@@ -58,8 +56,6 @@ class BaseTestCase extends WebTestCase
 //        var_dump(get_class(self::$kernel->getContainer()->get('doctrine')->getConnection()));
 //        var_dump(self::$kernel->getContainer()->get('doctrine')->getConnection()->getDatabase());
 //        die();
-
-
 
         // add the database:create command to the application and run it
 //        $command = new CreateDatabaseDoctrineCommand();

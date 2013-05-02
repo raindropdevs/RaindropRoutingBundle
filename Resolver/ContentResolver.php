@@ -4,15 +4,17 @@ namespace Raindrop\RoutingBundle\Resolver;
 
 use Symfony\Component\Routing\Exception\InvalidParameterException;
 
-class ContentResolver implements ContentResolverInterface {
-
+class ContentResolver implements ContentResolverInterface
+{
     protected $entityManager;
 
-    public function setEntityManager($entityManager) {
+    public function setEntityManager($entityManager)
+    {
         $this->entityManager = $entityManager;
     }
 
-    public function getContent($routeObject) {
+    public function getContent($routeObject)
+    {
         $content = null;
 
         $routeContent = $routeObject->getRouteContent();
@@ -35,7 +37,8 @@ class ContentResolver implements ContentResolverInterface {
         return $content;
     }
 
-    public function getRouteContent($content, $field = 'id') {
+    public function getRouteContent($content, $field = 'id')
+    {
         if (is_array($content)) {
             return $this->getRouteContentForCollection($content, $field);
         }
@@ -51,7 +54,8 @@ class ContentResolver implements ContentResolverInterface {
         return implode(':', $routeContentArray);
     }
 
-    protected function getRouteContentForCollection($collection, $field) {
+    protected function getRouteContentForCollection($collection, $field)
+    {
         if ($field === 'id') {
             throw new InvalidParameterException('Route::setCollection field parameter cannot be an id');
         }

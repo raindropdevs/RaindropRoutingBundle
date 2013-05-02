@@ -25,7 +25,7 @@ class RaindropRoutingExtension extends Extension
 
         $loader = new Loader\XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.xml');
-        
+
         /**
          * TEO: here we do the mess: detach symfony router,
          * attach chain router and reappend symfony router to it.

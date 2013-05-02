@@ -70,7 +70,8 @@ class DynamicRouter implements RouterInterface
         $this->routeRepository = $routeRepository;
     }
 
-    public function setGenerator($generator) {
+    public function setGenerator($generator)
+    {
         $this->generator = $generator;
 
         return $this;
@@ -107,8 +108,8 @@ class DynamicRouter implements RouterInterface
     /**
      * {@inheritDoc}
      *
-     * @param string $name ignored
-     * @param array $parameters must either contain the field 'route' with a
+     * @param string $name       ignored
+     * @param array  $parameters must either contain the field 'route' with a
      *      RouteObjectInterface or the field 'content' with the document
      *      instance to get the route for (implementing RouteAwareInterface)
      *
@@ -159,6 +160,7 @@ class DynamicRouter implements RouterInterface
         foreach ($routes as $route) {
             $collection->add($route->getName(), $route);
         }
+
         return $collection;
     }
 
@@ -179,7 +181,7 @@ class DynamicRouter implements RouterInterface
      *
      * @return array as described above
      *
-     * @throws ResourceNotFoundException If the requested url does not exist in the ODM
+     * @throws ResourceNotFoundException                                      If the requested url does not exist in the ODM
      * @throws \Symfony\Component\Routing\Exception\MethodNotAllowedException
      *      If the resource was found but the request method is not allowed
      */
@@ -283,7 +285,6 @@ class DynamicRouter implements RouterInterface
             }
         }
         // if none matched, continue and randomly return the first one
-
         return reset($routes);
     }
 

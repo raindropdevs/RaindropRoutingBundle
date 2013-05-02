@@ -80,6 +80,7 @@ class DynamicRouter extends BaseDynamicRouter implements ContainerAwareInterface
         if (!$request = $this->container->get('request')) {
             throw new \Exception('Request object not available from container');
         }
+
         return $request;
     }
 

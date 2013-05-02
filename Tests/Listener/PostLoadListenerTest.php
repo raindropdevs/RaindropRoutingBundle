@@ -17,7 +17,8 @@ class PostLoadListenerTest extends BaseTestCase
         $this->resolver = new ContentResolver;
     }
 
-    protected function getListener() {
+    protected function getListener()
+    {
         return new PostLoadListener($this->resolver);
     }
 

@@ -2,7 +2,6 @@
 
 namespace Raindrop\RoutingBundle\Controller;
 
-
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Raindrop\RoutingBundle\Routing\Base\ExternalRouteInterface;
@@ -10,18 +9,17 @@ use Raindrop\RoutingBundle\Routing\Base\ExternalRouteInterface;
 /**
  * Base generic controller
  */
-class GenericController extends Controller {
-
+class GenericController extends Controller
+{
     /**
      * Returns a 301/302 redirect response based on content parameters.
      *
-     * @param \Raindrop\RoutingBundle\Routing\Base\ExternalRouteInterface $content
+     * @param  \Raindrop\RoutingBundle\Routing\Base\ExternalRouteInterface $content
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function redirectRouteAction($content) {
-
+    public function redirectRouteAction($content)
+    {
         $routeParams = $this->get('request')->query->all(); // do not lose eventual get parameters
-
 
         if ($content instanceof ExternalRouteInterface) {
             /**
@@ -43,18 +41,18 @@ class GenericController extends Controller {
 
         $response = new RedirectResponse($uri, $http_status);
         $response->setVary('accept-language');
+
         return $response;
     }
-
 
     /**
      * Renders a template given an object.
      *
-     * @param type $content
+     * @param  type $content
      * @return type
      */
-    public function templateAction($content) {
-
+    public function templateAction($content)
+    {
         return $this->get('raindrop_routing.response_manager')->response($content, $content->getTemplate(), $content->getArray());
     }
 }
