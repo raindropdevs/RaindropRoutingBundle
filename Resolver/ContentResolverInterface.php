@@ -2,8 +2,8 @@
 
 namespace Raindrop\RoutingBundle\Resolver;
 
-interface ContentResolverInterface {
-
+interface ContentResolverInterface
+{
     /**
      * Returns target object according to resolving strategy.
      */

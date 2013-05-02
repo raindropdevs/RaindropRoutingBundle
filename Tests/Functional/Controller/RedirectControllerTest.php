@@ -31,8 +31,8 @@ class RedirectControllerTest extends BaseTestCase
         self::$resolver->setEntityManager(self::$em);
     }
 
-    public function testInnerRedirect() {
-
+    public function testInnerRedirect()
+    {
         $route = new Route;
         $route->setResolver(self::$resolver);
         $route->setName('my_route');
@@ -65,8 +65,8 @@ class RedirectControllerTest extends BaseTestCase
         $this->assertSame('http://localhost/path/to/target/route', $response->getTargetUrl());
     }
 
-    public function testInnerPermanentRedirect() {
-
+    public function testInnerPermanentRedirect()
+    {
         // recreate kernel at each test...
         self::setupBeforeClass();
 
@@ -123,13 +123,11 @@ class RedirectControllerTest extends BaseTestCase
         self::$em->persist($route);
         self::$em->flush();
 
-
         $request = new RequestStub;
         $request->param = 'my_route';
         $request->query = new FakeClass();
         $request->query->setAll(array('a' => '1', 'b' => '2'));
         self::$kernel->getContainer()->set('request', $request);
-
 
         $response = self::$controller->redirectRouteAction($externalRoute);
         $this->assertSame(302, $response->getStatusCode());
@@ -137,10 +135,9 @@ class RedirectControllerTest extends BaseTestCase
         $this->assertSame('http://www.google.com/?a=1&b=2', $response->getTargetUrl());
     }
 
-    public function testExternalPermanentRedirect() {
-
+    public function testExternalPermanentRedirect()
+    {
         self::setupBeforeClass();
-
 
         $externalRoute = new ExternalRoute;
         $externalRoute->setPermanent();
@@ -159,13 +156,11 @@ class RedirectControllerTest extends BaseTestCase
         self::$em->persist($route);
         self::$em->flush();
 
-
         $request = new RequestStub;
         $request->param = 'my_route';
         $request->query = new FakeClass();
         $request->query->all = array();
         self::$kernel->getContainer()->set('request', $request);
-
 
         $response = self::$controller->redirectRouteAction($externalRoute);
         $this->assertSame(301, $response->getStatusCode());
@@ -174,42 +169,48 @@ class RedirectControllerTest extends BaseTestCase
     }
 }
 
-
-class FakeClass {
-
+class FakeClass
+{
     public $all;
 
-    public function setAll($all) {
+    public function setAll($all)
+    {
         $this->all = $all;
     }
 
-    public function all() {
+    public function all()
+    {
         return $this->all;
     }
 }
 
-class ResolverStub {
-    public function getContent() {
+class ResolverStub
+{
+    public function getContent()
+    {
         return 'ok';
     }
 }
 
-class RequestStub {
-
+class RequestStub
+{
     public $query, $param;
     protected $resolver;
 
-    public function __contruct($param) {
+    public function __contruct($param)
+    {
         $this->param = $param;
         $this->query = new FakeClass;
         $this->resolver = new ResolverStub;
     }
 
-    public function get($name) {
+    public function get($name)
+    {
         return $this->param;
     }
 
-    public function all() {
+    public function all()
+    {
         return array();
     }
 }

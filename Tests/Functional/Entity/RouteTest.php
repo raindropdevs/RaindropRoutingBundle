@@ -77,8 +77,8 @@ class RouteTest extends BaseTestCase
         $this->assertTrue(1 >= count($options)); // there is a default option for the compiler
     }
 
-
-    public function testSetContent() {
+    public function testSetContent()
+    {
         $content = new Route;
         $content->setResolver(self::$resolver);
         $content->setName('my_route_2');
@@ -96,7 +96,8 @@ class RouteTest extends BaseTestCase
         $this->assertEquals('Raindrop\RoutingBundle\Entity\Route::' . $id, $route->getRouteContent());
     }
 
-    public function testSetContentWithField() {
+    public function testSetContentWithField()
+    {
         $content = new RecordStub;
 
         $route = new Route;
@@ -105,7 +106,8 @@ class RouteTest extends BaseTestCase
         $this->assertEquals('Raindrop\RoutingBundle\Tests\Functional\Entity\RecordStub:locale:en', $route->getRouteContent());
     }
 
-    public function testSetContentArray() {
+    public function testSetContentArray()
+    {
         $content = new RecordStub;
         $content2 = new RecordStub;
 
@@ -120,7 +122,8 @@ class RouteTest extends BaseTestCase
     /**
      * @expectedException Symfony\Component\Routing\Exception\InvalidParameterException
      */
-    public function testSetInvalidContentArray() {
+    public function testSetInvalidContentArray()
+    {
         $content = new RecordStub;
 
         $route = new Route;
@@ -129,13 +132,15 @@ class RouteTest extends BaseTestCase
     }
 }
 
-
-class RecordStub {
-    public function getLocale() {
+class RecordStub
+{
+    public function getLocale()
+    {
         return 'en';
     }
 
-    public function getId() {
+    public function getId()
+    {
         return 1;
     }
 }
