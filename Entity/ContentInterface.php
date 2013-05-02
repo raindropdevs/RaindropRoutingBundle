@@ -2,7 +2,8 @@
 
 namespace Raindrop\RoutingBundle\Entity;
 
-interface ContentInterface {
+interface ContentInterface
+{
     /**
      * Returns last update of current document/entity.
      */

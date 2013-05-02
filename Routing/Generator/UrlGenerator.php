@@ -11,7 +11,8 @@ use Symfony\Component\Routing\Generator\UrlGenerator as BaseUrlGenerator;
  * This should save resources when rendering a hundred elements menu
  * for example.
  */
-class UrlGenerator extends BaseUrlGenerator {
+class UrlGenerator extends BaseUrlGenerator
+{
     /**
      * {@inheritDoc}
      */

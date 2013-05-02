@@ -132,7 +132,6 @@ class ChainRouterTest extends BaseTestCase
             ->with($this->context)
         ;
 
-
         $this->router->add($low, 10);
         $this->router->add($high, 100);
 

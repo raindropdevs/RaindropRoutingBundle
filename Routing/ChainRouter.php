@@ -1,8 +1,6 @@
 <?php
 
-
 namespace Raindrop\RoutingBundle\Routing;
-
 
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Routing\Matcher\RequestMatcherInterface;
@@ -69,7 +67,7 @@ class ChainRouter implements RouterInterface, RequestMatcherInterface, WarmableI
      * Add a Router to the index
      *
      * @param RouterInterface $router
-     * @param integer $priority
+     * @param integer         $priority
      */
     public function add(RouterInterface $router, $priority = 0)
     {
@@ -125,7 +123,7 @@ class ChainRouter implements RouterInterface, RequestMatcherInterface, WarmableI
      *
      * Note: You should use matchRequest if you can.
      *
-     * @param string $url
+     * @param  string                    $url
      * @throws ResourceNotFoundException $e
      * @throws MethodNotAllowedException $e
      * @return array
@@ -175,6 +173,7 @@ class ChainRouter implements RouterInterface, RequestMatcherInterface, WarmableI
                 if ($router instanceof RequestMatcherInterface) {
                     return $router->matchRequest($request);
                 }
+
                 return $router->match($request->getPathInfo());
             } catch (ResourceNotFoundException $e) {
                 if ($this->logger) {
@@ -196,9 +195,9 @@ class ChainRouter implements RouterInterface, RequestMatcherInterface, WarmableI
      * Loops through all registered routers and returns a router if one is found.
      * It will always return the first route generated.
      *
-     * @param string $name
-     * @param array $parameters
-     * @param Boolean $absolute
+     * @param  string                 $name
+     * @param  array                  $parameters
+     * @param  Boolean                $absolute
      * @throws RouteNotFoundException
      * @return string
      */

@@ -7,11 +7,12 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
-class Manager implements ContainerAwareInterface {
-
+class Manager implements ContainerAwareInterface
+{
     protected $container;
 
-    public function setContainer(ContainerInterface $container = null) {
+    public function setContainer(ContainerInterface $container = null)
+    {
         $this->container = $container;
     }
 
@@ -19,17 +20,18 @@ class Manager implements ContainerAwareInterface {
      * Retrieves a base response with proper last-modified/expires headers
      * for http caching
      *
-     * @param \Raindrop\RoutingBundle\Entity\ContentInterface $content
-     * @param type $template template name
-     * @param type $parameters array of template variables
-     * @param int $expires expiration timestamp
+     * @param  \Raindrop\RoutingBundle\Entity\ContentInterface $content
+     * @param  type                                            $template   template name
+     * @param  type                                            $parameters array of template variables
+     * @param  int                                             $expires    expiration timestamp
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function response(ContentInterface $content, $template, $parameters, $expires = null) {
+    public function response(ContentInterface $content, $template, $parameters, $expires = null)
+    {
         if (is_null($expires)) {
             $expires = time() + 86400;
         }
-        
+
         $response = new Response;
         $response->setPublic();
         $response->setLastModified($content->getUpdated());

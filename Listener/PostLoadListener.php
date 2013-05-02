@@ -5,12 +5,13 @@ namespace Raindrop\RoutingBundle\Listener;
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use Raindrop\RoutingBundle\Entity\Route;
 
-class PostLoadListener {
-
+class PostLoadListener
+{
     protected $emBound = false;
     protected $resolver;
 
-    public function __construct($resolver) {
+    public function __construct($resolver)
+    {
         $this->resolver = $resolver;
     }
 

@@ -12,7 +12,7 @@ namespace Raindrop\RoutingBundle\Routing\Base;
  * Some fields in defaults have a special meaning in the getDefaults(). In addition
  * to the constants defined in this class, _locale and _controller are also used.
  */
-interface RouteObjectInterface
+interface RouterObjectInterface
 {
     /**
      * Constant for the field that is given to the ControllerAliasMapper.
@@ -52,5 +52,5 @@ interface RouteObjectInterface
      *
      * @return object the document or entity this route entry points to
      */
-    function getRouteContent();
+    public function getRouteContent();
 }

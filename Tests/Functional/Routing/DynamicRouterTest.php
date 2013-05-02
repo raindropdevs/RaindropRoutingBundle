@@ -3,7 +3,6 @@
 namespace Raindrop\RoutingBundle\Tests\Functional\Routing;
 
 use Raindrop\RoutingBundle\Entity\Route;
-use Raindrop\RoutingBundle\Routing\DynamicRouter;
 use Raindrop\RoutingBundle\Routing\Base\RouteObjectInterface;
 
 use Raindrop\RoutingBundle\Tests\Functional\BaseTestCase;
@@ -23,7 +22,8 @@ class DynamicRouterTest extends BaseTestCase
 
     const ROUTE_ROOT = '/test/routing';
 
-    public static function setupBeforeClass(array $options = array(), $routebase = null) {
+    public static function setupBeforeClass(array $options = array(), $routebase = null)
+    {
         parent::setupBeforeClass(array(), basename(self::ROUTE_ROOT));
         self::$router = self::$kernel->getContainer()->get('router');
 //        self::$routeNamePrefix = self::$kernel->getContainer()->get('symfony_cmf_routing_extra.route_repository')->getRouteNamePrefix();
@@ -56,7 +56,8 @@ class DynamicRouterTest extends BaseTestCase
 //        self::$dm->flush();
     }
 
-    public function testMatch() {
+    public function testMatch()
+    {
 //        $expected = array(
 //            RouteObjectInterface::CONTROLLER_NAME => 'testController',
 //            '_route'        => self::$routeNamePrefix.'_test_routing_testroute_child',
@@ -78,14 +79,16 @@ class DynamicRouterTest extends BaseTestCase
     /**
      * @expectedException Symfony\Component\Routing\Exception\ResourceNotFoundException
      */
-    public function testNoMatch() {
+    public function testNoMatch()
+    {
         self::$router->match('/non/existing/route');
     }
 
     /**
      * @expectedException Symfony\Component\Routing\Exception\MethodNotAllowedException
      */
-    public function testNotAllowed() {
+    public function testNotAllowed()
+    {
         // do not set a content here, or we need a valid request and so on...
         $route = new Route;
         $route->setName('not_allowed');
@@ -99,19 +102,22 @@ class DynamicRouterTest extends BaseTestCase
         self::$router->match('/notallowed');
     }
 
-    public function testGenerate() {
+    public function testGenerate()
+    {
         $route = self::$em->getRepository('Raindrop\RoutingBundle\Entity\Route')->findOneByName('test_route');
         $url = self::$router->generate('test', array('route' => $route));
         $this->assertEquals('/test/route', $url);
     }
 
-    public function testGenerateAbsolute() {
+    public function testGenerateAbsolute()
+    {
         $route = self::$em->getRepository('Raindrop\RoutingBundle\Entity\Route')->findOneByName('test_route');
         $url = self::$router->generate('test', array('route' => $route), true);
         $this->assertEquals('http://localhost/test/route', $url);
     }
 
-    public function testGenerateWithParameters() {
+    public function testGenerateWithParameters()
+    {
         $route = self::$em->getRepository('Raindrop\RoutingBundle\Entity\Route')->findOneByName('test_route');
         $url = self::$router->generate('test', array('route' => $route, 'param' => 'someValue'), true);
         $this->assertEquals('http://localhost/test/route?param=someValue', $url);

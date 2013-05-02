@@ -72,7 +72,6 @@ class RouteRepository extends EntityRepository implements RouteRepositoryInterfa
 //                $url = substr($url, 0, $pos - 1);
 //            }
 //        }
-
         return $url;
     }
 

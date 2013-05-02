@@ -2,7 +2,8 @@
 
 namespace Raindrop\RoutingBundle\Routing\Base;
 
-interface ExternalRouteInterface {
+interface ExternalRouteInterface
+{
     public function getUri();
     public function getPermanent();
 }

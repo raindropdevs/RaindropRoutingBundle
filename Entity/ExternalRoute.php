@@ -24,17 +24,16 @@ class ExternalRoute implements ExternalRouteInterface
      * @ORM\Column(type="string", length=255)
      */
     private $uri;
-    
+
     /**
      * @ORM\Column(type="boolean", nullable=true)
      */
     protected $permanent;
 
-
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -44,20 +43,20 @@ class ExternalRoute implements ExternalRouteInterface
     /**
      * Set uri
      *
-     * @param string $uri
+     * @param  string        $uri
      * @return ExternalRoute
      */
     public function setUri($uri)
     {
         $this->uri = $uri;
-    
+
         return $this;
     }
 
     /**
      * Get url
      *
-     * @return string 
+     * @return string
      */
     public function getUri()
     {
@@ -67,20 +66,20 @@ class ExternalRoute implements ExternalRouteInterface
     /**
      * Set permanent
      *
-     * @param boolean $permanent
+     * @param  boolean       $permanent
      * @return ExternalRoute
      */
     public function setPermanent($permanent = true)
     {
         $this->permanent = $permanent;
-    
+
         return $this;
     }
 
     /**
      * Get permanent
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getPermanent()
     {

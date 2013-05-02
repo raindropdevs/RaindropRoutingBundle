@@ -4,12 +4,11 @@ namespace Raindrop\RoutingBundle\Tests\DependencyInjection;
 
 use Raindrop\RoutingBundle\DependencyInjection\RaindropRoutingExtension;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\Config\Definition\Processor;
 
 class RaindropRoutingExtensionTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @param array $config
+     * @param  array                                                   $config
      * @return \Symfony\Component\DependencyInjection\ContainerBuilder
      */
     protected function getBuilder(array $config = array())
