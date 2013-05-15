@@ -251,7 +251,7 @@ class Route extends SymfonyRoute implements RouteObjectInterface
 
     /**
      *
-     * @param  array                                $array
+     * @param  array  $array
      * @return \Raindrop\RoutingBundle\Entity\Route
      */
     public function setRequirements(array $array)
