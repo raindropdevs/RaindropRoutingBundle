@@ -12,4 +12,8 @@ use Doctrine\ORM\EntityRepository;
  */
 class ExternalRouteRepository extends EntityRepository
 {
+    public function findEager($id)
+    {
+        return $this->find($id);
+    }
 }
