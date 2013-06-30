@@ -11,6 +11,9 @@
         <parameter key="raindrop_routing_bundle.route_object_class">Raindrop\RoutingBundle\Entity\Route</parameter>
         <parameter key="raindrop_routing_bundle.route_repository_class">Raindrop\RoutingBundle\Entity\RouteRepository</parameter>
 
+        <parameter key="raindrop_routing_bundle.external_route_object_class">Raindrop\RoutingBundle\Entity\ExternalRoute</parameter>
+        <parameter key="raindrop_routing_bundle.external_route_repository_class">Raindrop\RoutingBundle\Entity\ExternalRouteRepository</parameter>
+
         <parameter key="raindrop_routing_bundle.content_postload_listener">Raindrop\RoutingBundle\Listener\PostLoadListener</parameter>
         <parameter key="raindrop_routing_bundle.generic_controller_class">Raindrop\RoutingBundle\Controller\GenericController</parameter>
         <parameter key="raindrop_routing_bundle.response_manager_class">Raindrop\RoutingBundle\Response\Manager</parameter>
@@ -34,6 +37,10 @@
         <service id="raindrop_routing.route_repository" factory-service="doctrine.orm.entity_manager" factory-method="getRepository" class="%raindrop_routing_bundle.route_repository_class%">
             <argument>%raindrop_routing_bundle.route_object_class%</argument>
             <call method="setPrefix"><argument type="string">/route</argument></call>
+        </service>
+
+        <service id="raindrop_routing.external_route_repository" factory-service="doctrine.orm.entity_manager" factory-method="getRepository" class="%raindrop_routing_bundle.external_route_repository_class%">
+            <argument>%raindrop_routing_bundle.external_route_object_class%</argument>
         </service>
 
         <service id="raindrop_routing.postload_listener" class="%raindrop_routing_bundle.content_postload_listener%">
