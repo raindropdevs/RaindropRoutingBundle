@@ -62,6 +62,11 @@ class Route extends SymfonyRoute implements RouteObjectInterface
     protected $host;
 
     /**
+     * @ORM\Column(type="array",nullable=true)
+     */
+    protected $schemes;
+
+    /**
      * @ORM\Column(nullable=true)
      */
     protected $method;
