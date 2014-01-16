@@ -59,6 +59,11 @@ class Route extends SymfonyRoute implements RouteObjectInterface
     /**
      * @ORM\Column(nullable=true)
      */
+    protected $host;
+
+    /**
+     * @ORM\Column(nullable=true)
+     */
     protected $method;
 
     /**
@@ -435,6 +440,38 @@ class Route extends SymfonyRoute implements RouteObjectInterface
         }
 
         return $this->method;
+    }
+
+    /**
+     * Set host
+     *
+     * @param string $host
+     * @return Route
+     */
+    public function setHost($host)
+    {
+        $this->host = $host;
+
+        return $this;
+    }
+
+    /**
+     * Get host
+     *
+     * @return string 
+     */
+    public function getHost()
+    {
+        if (is_null($this->host)) {
+            return '';
+        }
+
+        return $this->host;
+    }
+
+    public function getHostTokens()
+    {
+        return $this->host;
     }
 
     /**
