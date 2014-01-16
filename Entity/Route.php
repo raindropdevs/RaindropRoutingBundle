@@ -474,9 +474,27 @@ class Route extends SymfonyRoute implements RouteObjectInterface
         return $this->host;
     }
 
-    public function getHostTokens()
+    /**
+     * Set schemes
+     *
+     * @param array $schemes
+     * @return Route
+     */
+    public function setSchemes($schemes)
     {
-        return $this->host;
+        $this->schemes = $schemes;
+
+        return $this;
+    }
+
+    /**
+     * Get schemes
+     *
+     * @return array 
+     */
+    public function getSchemes()
+    {
+        return $this->schemes;
     }
 
     /**
