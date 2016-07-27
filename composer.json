@@ -23,7 +23,7 @@
         "symfony/finder": "~2.2"
     },
     "autoload": {
-        "psr-4": { "Raindrop\\RoutingBundle": "" }
+        "psr-4": { "Raindrop\\RoutingBundle\\": "" }
     },
     "extra": {
         "branch-alias": {
