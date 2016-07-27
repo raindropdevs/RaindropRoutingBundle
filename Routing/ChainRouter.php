@@ -12,7 +12,7 @@ use Symfony\Component\Routing\Exception\MethodNotAllowedException;
 use Symfony\Component\Routing\RouteCollection;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\CacheWarmer\WarmableInterface;
-use Symfony\Component\HttpKernel\Log\LoggerInterface;
+use Psr\Log\LoggerInterface;
 
 /**
  * ChainRouter
