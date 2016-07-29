@@ -121,8 +121,9 @@ class DynamicRouter implements RouterInterface
             $route = $parameters['route'];
             unset($parameters['route']);
         } elseif ($name) {
-
-            $route = $this->routeRepository->getRouteByName($name, $parameters);
+	    $config['locale'] = $this->getLocale($parameters);
+            $config['defaultLocale'] = $this->container->getParameter('locale');
+            $route = $this->routeRepository->getRouteByName($name, $parameters, $config);
         } else {
             $route = $this->getRouteFromContent($parameters);
             unset($parameters['route']); // could be an empty string
