@@ -352,6 +352,14 @@ class Route extends SymfonyRoute implements RouteObjectInterface
     }
 
     /**
+     * Resets ID (for cloning purpose)
+     */
+    public function resetId()
+    {
+        $this->id = null;
+    }
+
+    /**
      * Set created
      *
      * @param  \DateTime $created
@@ -463,7 +471,7 @@ class Route extends SymfonyRoute implements RouteObjectInterface
     /**
      * Get host
      *
-     * @return string 
+     * @return string
      */
     public function getHost()
     {
@@ -490,7 +498,7 @@ class Route extends SymfonyRoute implements RouteObjectInterface
     /**
      * Get schemes
      *
-     * @return array 
+     * @return array
      */
     public function getSchemes()
     {
