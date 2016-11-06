@@ -19,7 +19,8 @@ class GenericController extends Controller
      */
     public function redirectRouteAction($content)
     {
-        $routeParams = $this->get('request')->query->all(); // do not lose eventual get parameters
+        $request = $this->container->get('request_stack')->getCurrentRequest();
+        $routeParams = $request->query->all(); // do not lose eventual get parameters
 
         if ($content instanceof ExternalRouteInterface) {
             /**
@@ -34,7 +35,7 @@ class GenericController extends Controller
             /**
              * Inner redirect
              */
-            $current_route = $this->get('router')->getRouteCollection()->get($this->getRequest()->get('_route'));
+            $current_route = $this->get('router')->getRouteCollection()->get($request->get('_route'));
             $http_status = $current_route->getPermanent() ? 301 : 302;
             $uri = $this->get('router')->generate($content->getName(), $routeParams, true);
         }
