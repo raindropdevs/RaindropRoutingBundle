@@ -111,9 +111,21 @@ class RouteRepository extends EntityRepository implements RouteRepositoryInterfa
     /**
      * {@inheritDoc}
      */
-    public function getRouteByName($name, $parameters = array())
+    public function getRouteByName($name, $parameters = array(), $config = array())
     {
-        $route = $this->findOneByName($name);
+	$locale = $config['locale'];
+        $defaultLocale = $config['defaultLocale'];
+	
+        $route = $this->findOneBy(array('name' => $name, 'locale' => $locale));
+
+        if (!$route) {
+            $route = $this->findOneBy(array('name' => $name, 'locale' => substr($locale, 0, 2)));
+        }
+
+        if (!$route) {
+            $route = $this->findOneBy(array('name' => $name, 'locale' => $defaultLocale));
+        }
+        
         if (!$route) {
             throw new RouteNotFoundException("No route found for name '$name'");
         }
