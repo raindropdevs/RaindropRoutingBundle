@@ -32,7 +32,7 @@ class Route extends SymfonyRoute implements RouteObjectInterface
     protected $name;
 
     /**
-     * @ORM\Column(type="string", length=255, unique=true)
+     * @ORM\Column(type="string", length=180, unique=true)
      */
     protected $path;
 
