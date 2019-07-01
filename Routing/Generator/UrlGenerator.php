@@ -30,6 +30,16 @@ class UrlGenerator extends BaseUrlGenerator
             '_locale' => $route->getLocale()
         );
 
-        return $this->doGenerate($compiledRoute->getVariables(), $routeDefaults, $route->getRequirements(), $compiledRoute->getTokens(), $parameters, $name, $absolute, $compiledRoute->getHostTokens(), $route->getSchemes());
+        return $this->doGenerate(
+            $compiledRoute->getVariables(),
+            $routeDefaults,
+            $route->getRequirements(),
+            $compiledRoute->getTokens(),
+            $parameters,
+            $name,
+            $absolute,
+            $compiledRoute->getHostTokens(),
+            $route->getSchemes() ? $route->getSchemes() : []
+            );
     }
 }

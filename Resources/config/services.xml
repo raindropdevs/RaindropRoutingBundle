@@ -21,7 +21,7 @@
     </parameters>
 
     <services>
-        <service id="raindrop_routing.router" class="%raindrop_routing_bundle.chain_router_class%">
+        <service id="raindrop_routing.router" class="%raindrop_routing_bundle.chain_router_class%" public="true">
             <argument type="service" id="logger" />
             <call method="setContext">
                 <argument type="service" id="router.request_context" />
@@ -34,7 +34,7 @@
             <call method="setContainer"><argument type="service" id="service_container"/></call>
         </service>
 
-        <service id="raindrop_routing.route_repository" class="%raindrop_routing_bundle.route_repository_class%">
+        <service id="raindrop_routing.route_repository" class="%raindrop_routing_bundle.route_repository_class%" public="true">
             <argument>%raindrop_routing_bundle.route_object_class%</argument>
             <call method="setPrefix"><argument type="string">/route</argument></call>
             <factory service="doctrine.orm.entity_manager" method="getRepository" />
