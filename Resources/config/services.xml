@@ -50,7 +50,7 @@
             <argument type="service" id="raindrop_routing.content_resolver" />
         </service>
 
-        <service id="raindrop_routing.content_resolver" class="%raindrop_routing_bundle.content_resolver_class%">
+        <service id="raindrop_routing.content_resolver" class="%raindrop_routing_bundle.content_resolver_class%" public="true">
         </service>
 
         <service id="raindrop_routing.generic_controller" class="%raindrop_routing_bundle.generic_controller_class%">
