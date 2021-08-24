@@ -17,8 +17,10 @@ class Configuration implements ConfigurationInterface
      */
     public function getConfigTreeBuilder()
     {
-        $treeBuilder = new TreeBuilder();
-        $treeBuilder->root('raindrop_routing')
+        $treeBuilder = new TreeBuilder('raindrop_routing');
+        $rootNode = $treeBuilder->getRootNode();
+
+        $rootNode
             ->children()
                 ->arrayNode('chain')
                     ->addDefaultsIfNotSet()

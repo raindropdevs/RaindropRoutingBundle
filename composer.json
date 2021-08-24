@@ -14,7 +14,7 @@
     "require": {
         "php": ">=5.3.9",
         "symfony/monolog-bundle": ">=2.1",
-        "doctrine/doctrine-bundle": "~1.4"
+        "doctrine/doctrine-bundle": "^2.4"
     },
     "require-dev": {
         "symfony/class-loader": "~2.2",
