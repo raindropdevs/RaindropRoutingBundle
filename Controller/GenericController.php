@@ -2,15 +2,20 @@
 
 namespace Raindrop\RoutingBundle\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Raindrop\RoutingBundle\Routing\Base\ExternalRouteInterface;
 
 /**
  * Base generic controller
  */
-class GenericController extends Controller
+class GenericController extends AbstractController
 {
+    public function __construct($router)
+    {
+        $this->router = $router;
+    }
+
     /**
      * Returns a 301/302 redirect response based on content parameters.
      *
@@ -35,9 +40,9 @@ class GenericController extends Controller
             /**
              * Inner redirect
              */
-            $current_route = $this->get('router')->getRouteCollection()->get($request->get('_route'));
+            $current_route = $this->router->getRouteCollection()->get($request->get('_route'));
             $http_status = $current_route->getPermanent() ? 301 : 302;
-            $uri = $this->get('router')->generate($content->getName(), $routeParams, true);
+            $uri = $this->router->generate($content->getName(), $routeParams, true);
         }
 
         $response = new RedirectResponse($uri, $http_status);
