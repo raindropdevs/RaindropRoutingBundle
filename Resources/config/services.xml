@@ -53,8 +53,11 @@
         <service id="raindrop_routing.content_resolver" class="%raindrop_routing_bundle.content_resolver_class%" public="true">
         </service>
 
-        <service id="raindrop_routing.generic_controller" class="%raindrop_routing_bundle.generic_controller_class%">
-            <call method="setContainer"><argument type="service" id="service_container"/></call>
+        <service id="raindrop_routing.generic_controller" class="%raindrop_routing_bundle.generic_controller_class%" public ="true">
+            <argument type="service" id="raindrop_routing.router" />
+            <call method="setContainer">
+                <argument type="service" id="service_container"/>
+            </call>
         </service>
 
         <service id="raindrop_routing.response_manager" class="%raindrop_routing_bundle.response_manager_class%">
